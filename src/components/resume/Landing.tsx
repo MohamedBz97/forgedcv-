@@ -11,7 +11,6 @@ import {
   Check,
   Star,
   LayoutTemplate,
-  Eye,
   MousePointerClick,
   PencilLine,
   ChevronDown,
@@ -22,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { useResumeStore } from "@/lib/resume-store";
 import { TEMPLATES } from "@/lib/templates";
 import { defaultResumeData, defaultSettings } from "@/lib/default-data";
+import { heroResumeData, heroResumeSettings } from "@/lib/hero-data";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { ScaledResume } from "@/components/resume/ScaledResume";
 import { BrandLockup } from "@/components/brand/BrandLockup";
@@ -190,6 +190,12 @@ export function Landing() {
             <a href="/?examples=list" className="transition-colors hover:text-foreground">
               Examples
             </a>
+            <a href="/?tool=resume-score" className="transition-colors hover:text-foreground">
+              Resume Score
+            </a>
+            <a href="/?tool=cover-letter" className="transition-colors hover:text-foreground">
+              Cover Letter
+            </a>
             <a href="/?blog=list" className="transition-colors hover:text-foreground">
               Blog
             </a>
@@ -233,7 +239,7 @@ export function Landing() {
                 Forge a resume that gets you hired
               </h1>
               <p className="max-w-xl text-lg text-foreground/70 text-pretty">
-                Free resume builder with 8 ATS-friendly templates. Unlimited PDF
+                Free resume builder with 20 ATS-friendly templates. Unlimited PDF
                 downloads. No watermarks, no hidden fees. Forge yours in minutes 🔥
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
@@ -244,15 +250,12 @@ export function Landing() {
                 >
                   Start forging for free ✨
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-12 rounded-xl border-2 border-foreground/70 bg-transparent px-6 text-base font-semibold text-foreground hover:bg-foreground/5"
-                  onClick={loadSample}
+                <a
+                  href="/?tool=resume-score"
+                  className="inline-flex h-12 items-center justify-center rounded-xl border-2 border-foreground/70 bg-transparent px-6 text-base font-semibold text-foreground transition-colors hover:bg-foreground/5"
                 >
-                  <Eye className="size-4" />
-                  View live demo
-                </Button>
+                  Check your resume score
+                </a>
               </div>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1 text-sm text-foreground/60">
                 <span className="flex items-center gap-1.5">
@@ -280,8 +283,8 @@ export function Landing() {
               <div className="relative">
                 <div className="overflow-hidden rounded-xl shadow-[0_20px_60px_-15px_rgba(28,25,23,0.28)] ring-1 ring-black/5">
                   <ScaledResume
-                    data={defaultResumeData}
-                    settings={{ ...defaultSettings, templateId: "professional" }}
+                    data={heroResumeData}
+                    settings={heroResumeSettings}
                     width={440}
                   />
                 </div>
@@ -445,6 +448,56 @@ export function Landing() {
           </div>
         </section>
 
+        {/* Free tools section */}
+        <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">Free tools</p>
+            <h2 className="display-heading mt-3 text-3xl text-foreground sm:text-4xl">
+              Check your work before you send it
+            </h2>
+            <p className="mt-3 text-foreground/65">
+              Two free tools that catch the mistakes that get resumes rejected.
+              No signup, no upload, no limits.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <a
+              href="/?tool=resume-score"
+              className="group rounded-2xl bg-card p-7 shadow-[0_2px_12px_-6px_rgba(28,25,23,0.14)] ring-1 ring-black/5 transition-all hover:-translate-y-1 hover:shadow-[0_14px_34px_-10px_rgba(28,25,23,0.22)]"
+            >
+              <div className="flex size-12 items-center justify-center rounded-lg bg-forge/10 text-forge">
+                <svg viewBox="0 0 24 24" fill="none" className="size-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="m7 14 4-4 4 4 5-6" /></svg>
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-foreground">Resume Score Checker</h3>
+              <p className="mt-1.5 text-sm text-foreground/65">
+                Paste your resume and get an instant score across 6 categories —
+                impact, ATS readiness, contact info, sections, keywords, and format.
+                Plus a prioritized fix list.
+              </p>
+              <span className="mt-4 inline-block text-sm font-semibold text-forge">
+                Check my resume →
+              </span>
+            </a>
+            <a
+              href="/?tool=cover-letter"
+              className="group rounded-2xl bg-card p-7 shadow-[0_2px_12px_-6px_rgba(28,25,23,0.14)] ring-1 ring-black/5 transition-all hover:-translate-y-1 hover:shadow-[0_14px_34px_-10px_rgba(28,25,23,0.22)]"
+            >
+              <div className="flex size-12 items-center justify-center rounded-lg bg-forge/10 text-forge">
+                <svg viewBox="0 0 24 24" fill="none" className="size-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M9 13h6M9 17h6" /></svg>
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-foreground">Cover Letter Builder</h3>
+              <p className="mt-1.5 text-sm text-foreground/65">
+                Build a polished cover letter from a proven template, or paste an
+                existing one to score it. Checks length, specificity, clichés, and
+                whether you named the company and role.
+              </p>
+              <span className="mt-4 inline-block text-sm font-semibold text-forge">
+                Build my cover letter →
+              </span>
+            </a>
+          </div>
+        </section>
+
         {/* Testimonials */}
         <section className="border-y border-black/5 bg-foreground/[0.02]">
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
@@ -587,6 +640,16 @@ export function Landing() {
                 <li>
                   <a href="/?examples=list" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">
                     Resume Examples
+                  </a>
+                </li>
+                <li>
+                  <a href="/?tool=resume-score" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">
+                    Resume Score Checker
+                  </a>
+                </li>
+                <li>
+                  <a href="/?tool=cover-letter" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">
+                    Cover Letter Tool
                   </a>
                 </li>
                 <li>

@@ -1,8 +1,13 @@
 import { cn } from "@/lib/utils";
 
 /**
- * forgedCV logo mark — a hammer striking an anvil, forging a resume document.
- * Inline SVG so it inherits currentColor and scales crisply.
+ * forgedCV logo mark — a hammer striking a document, refined and professional.
+ *
+ * Design: a clean document/page with a folded corner and text lines, struck
+ * by a hammer coming from the upper-right. The hammer head + handle form a
+ * strong diagonal. A small spark marks the impact point. Geometric, balanced,
+ * readable at 16px. The hammer is forge-orange (the brand fire); the document
+ * is charcoal (the forged steel/result).
  *
  * Server-component safe (no "use client").
  */
@@ -15,7 +20,7 @@ export function LogoMark({
 }) {
   return (
     <svg
-      viewBox="0 0 32 32"
+      viewBox="0 0 40 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
@@ -23,46 +28,65 @@ export function LogoMark({
       className={cn("size-8", className)}
     >
       <title>{title}</title>
-      {/* Anvil base (the resume being forged) — a document shape */}
-      <rect
-        x="4"
-        y="20"
-        width="24"
-        height="3"
-        rx="0.5"
-        className="fill-foreground"
-      />
-      {/* Anvil support */}
+      {/* Document / page — the resume being forged, with a folded corner */}
       <path
-        d="M12 23h8v3a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-3Z"
-        className="fill-foreground"
+        d="M8 7h13l5 5v21a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
+        className="fill-card stroke-foreground"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
       />
-      {/* Resume document sitting on the anvil */}
-      <g className="fill-card">
-        <rect x="9" y="11" width="14" height="9" rx="1" className="stroke-foreground stroke-[1.2]" />
-        {/* text lines on the document */}
-        <rect x="11" y="13.5" width="6" height="1" rx="0.3" className="fill-foreground" />
-        <rect x="11" y="15.5" width="10" height="0.8" rx="0.3" className="fill-foreground/60" />
-        <rect x="11" y="17" width="8" height="0.8" rx="0.3" className="fill-foreground/60" />
-      </g>
-      {/* Hammer — coming down from top-right, striking the document */}
+      {/* Folded corner of the page */}
+      <path
+        d="M21 7v5h5"
+        className="stroke-foreground"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      {/* Text lines on the document */}
+      <rect x="9.5" y="16" width="8" height="1.6" rx="0.4" className="fill-foreground" />
+      <rect x="9.5" y="20" width="13" height="1.3" rx="0.4" className="fill-foreground/55" />
+      <rect x="9.5" y="23" width="11" height="1.3" rx="0.4" className="fill-foreground/55" />
+      <rect x="9.5" y="26" width="13" height="1.3" rx="0.4" className="fill-foreground/55" />
+      <rect x="9.5" y="29" width="9" height="1.3" rx="0.4" className="fill-foreground/55" />
+
+      {/* Hammer — striking down from upper-right */}
+      {/* Handle */}
+      <rect
+        x="30.2"
+        y="4"
+        width="2.4"
+        height="13"
+        rx="1.2"
+        transform="rotate(42 31.4 10.5)"
+        className="fill-forge"
+      />
+      {/* Hammer head */}
+      <rect
+        x="23.5"
+        y="2.5"
+        width="9"
+        height="6"
+        rx="1.3"
+        transform="rotate(42 28 5.5)"
+        className="fill-forge"
+      />
+      {/* Highlight on hammer head for a polished look */}
+      <rect
+        x="24.5"
+        y="3.6"
+        width="3"
+        height="1.2"
+        rx="0.4"
+        transform="rotate(42 26 4.2)"
+        className="fill-white/35"
+      />
+
+      {/* Impact spark where hammer meets document */}
       <g className="fill-forge">
-        {/* hammer head */}
-        <rect x="18" y="3" width="9" height="5" rx="1" transform="rotate(35 22.5 5.5)" />
-        {/* hammer handle */}
-        <rect
-          x="23.5"
-          y="6"
-          width="1.6"
-          height="9"
-          rx="0.6"
-          transform="rotate(35 24.3 10.5)"
-        />
-      </g>
-      {/* spark / impact mark where hammer meets document */}
-      <g className="fill-forge">
-        <circle cx="15" cy="10.5" r="1.1" />
-        <path d="M15 8.2v1.4M15 11.4v1.4M12.8 10.5h1.4M16.8 10.5h1.4" className="stroke-forge stroke-[1] stroke-linecap-round" />
+        <path d="M24.5 16.5 L25.8 18 L24.5 19.5 L23.2 18 Z" />
+        <circle cx="28" cy="13" r="1.1" />
+        <circle cx="20.5" cy="20.5" r="0.9" className="fill-forge/70" />
       </g>
     </svg>
   );

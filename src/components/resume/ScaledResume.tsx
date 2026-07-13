@@ -1,17 +1,21 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { ResumeData, ResumeSettings } from "@/lib/types";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 
 /**
  * Renders a ResumeDocument scaled to fit a target width, with the container
- * sized to the EXACT scaled dimensions (so there's no empty gap below).
+ * sized to the EXACT scaled content height (measured via ResizeObserver).
  *
- * The resume is natively 794px wide (A4 @ 96dpi). We scale it down to `width`
- * and set the container height to 1123 * scale so the box matches the visual.
+ * This solves the "not filled" problem: ResumeDocument has minHeight: 1123px
+ * (full A4), but content may be shorter OR longer. We measure the real
+ * rendered height and scale the container to match — no empty gaps, no
+ * clipping, always exactly filled.
  *
- * Use this anywhere you need a thumbnail/preview of a resume at a custom size
- * (hero mockups, template gallery cards, example cards).
+ * The resume is natively 794px wide (A4 @ 96dpi). We scale it to `width`
+ * and measure the inner content height, then set container height =
+ * measuredHeight * scale.
  */
 export function ScaledResume({
   data,
@@ -25,20 +29,43 @@ export function ScaledResume({
   className?: string;
 }) {
   const scale = width / 794;
-  const height = 1123 * scale;
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const el = innerRef.current;
+    if (!el) return;
+    const update = () => {
+      const h = el.scrollHeight; // full content height incl. minHeight padding
+      setMeasuredHeight(h);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [data, settings]);
+
+  const containerHeight = measuredHeight ? measuredHeight * scale : undefined;
+
   return (
     <div
       className={className}
-      style={{ width, height, overflow: "hidden", position: "relative" }}
+      style={{
+        width,
+        height: containerHeight,
+        overflow: "hidden",
+        position: "relative",
+      }}
     >
       <div
+        ref={innerRef}
         style={{
           transform: `scale(${scale})`,
           transformOrigin: "top left",
           width: 794,
         }}
       >
-        <ResumeDocument data={data} settings={settings} />
+        <ResumeDocument data={data} settings={settings} autoHeight />
       </div>
     </div>
   );

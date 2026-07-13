@@ -28,6 +28,8 @@ interface ResumeDocumentProps {
   data: ResumeData;
   settings: ResumeSettings;
   className?: string;
+  /** When true, the page sizes to its content (no A4 min-height). Use for previews/mockups so there's no white-space gap. */
+  autoHeight?: boolean;
 }
 
 function getFontStack(name: string): string {
@@ -82,7 +84,7 @@ function renderTemplate(id: TemplateId, data: ResumeData, settings: ResumeSettin
   }
 }
 
-export function ResumeDocument({ data, settings, className }: ResumeDocumentProps) {
+export function ResumeDocument({ data, settings, className, autoHeight }: ResumeDocumentProps) {
   const fontStack = getFontStack(settings.fontFamily);
   const rootFontSize = fontSizeClass(settings.fontSize);
 
@@ -92,7 +94,7 @@ export function ResumeDocument({ data, settings, className }: ResumeDocumentProp
       style={
         {
           width: "794px",
-          minHeight: "1123px",
+          minHeight: autoHeight ? "auto" : "1123px",
           backgroundColor: "#ffffff",
           color: "#1f2937",
           fontFamily: fontStack,

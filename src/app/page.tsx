@@ -6,24 +6,90 @@ import { BlogList } from "@/components/blog/BlogList";
 import { BlogArticle } from "@/components/blog/BlogArticle";
 import { ExamplesList } from "@/components/blog/ExamplesList";
 import { ExampleArticle } from "@/components/blog/ExampleArticle";
+import { ResumeScorePage } from "@/components/tools/ResumeScorePage";
+import { CoverLetterPage } from "@/components/tools/CoverLetterPage";
 import { HomeClient } from "@/components/resume/HomeClient";
 
-// Generate metadata based on what's being viewed (blog article / example / list)
+// Generate metadata based on what's being viewed (blog article / example / list / tool)
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ blog?: string; examples?: string }>;
+  searchParams: Promise<{ blog?: string; examples?: string; tool?: string }>;
 }): Promise<Metadata> {
-  const { blog, examples } = await searchParams;
+  const { blog, examples, tool } = await searchParams;
 
   // No param → landing/home page
-  if (!blog && !examples) {
+  if (!blog && !examples && !tool) {
     return {
       title: {
         default: "forgedCV — Free Online Resume Builder | CV Maker",
         template: "%s | forgedCV",
       },
       alternates: { canonical: "/" },
+    };
+  }
+
+  // Tool: resume score checker
+  if (tool === "resume-score") {
+    return {
+      title: "Free Resume Score Checker — Instant Resume Review | forgedCV",
+      description:
+        "Paste your resume and get an instant score with specific, actionable feedback. Checks length, impact, contact info, sections, ATS readiness, and keywords. 100% free, no signup.",
+      keywords: [
+        "resume score",
+        "resume checker",
+        "resume review",
+        "resume analyzer",
+        "resume grader",
+        "ats check",
+        "resume feedback",
+        "free resume review",
+      ],
+      alternates: { canonical: "/?tool=resume-score" },
+      openGraph: {
+        title: "Free Resume Score Checker — Instant Resume Review | forgedCV",
+        description:
+          "Paste your resume and get an instant score with specific, actionable feedback. 100% free, no signup, no upload required.",
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Free Resume Score Checker | forgedCV",
+        description:
+          "Paste your resume and get an instant score with specific, actionable feedback.",
+      },
+    };
+  }
+
+  // Tool: cover letter builder + checker
+  if (tool === "cover-letter") {
+    return {
+      title: "Free Cover Letter Builder & Checker | forgedCV",
+      description:
+        "Build a polished cover letter in seconds — fill in a few fields and get a ready-to-send letter. Or paste an existing one and get an instant score with specific fixes. 100% free, no signup.",
+      keywords: [
+        "cover letter builder",
+        "cover letter maker",
+        "cover letter checker",
+        "cover letter generator",
+        "free cover letter",
+        "cover letter review",
+        "cover letter template",
+        "cover letter score",
+      ],
+      alternates: { canonical: "/?tool=cover-letter" },
+      openGraph: {
+        title: "Free Cover Letter Builder & Checker | forgedCV",
+        description:
+          "Build a polished cover letter in seconds, or paste an existing one and get an instant score with specific fixes. 100% free, no signup.",
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "Free Cover Letter Builder & Checker | forgedCV",
+        description:
+          "Build a polished cover letter in seconds, or paste one to get an instant score.",
+      },
     };
   }
 
@@ -117,9 +183,27 @@ export async function generateMetadata({
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ blog?: string; examples?: string }>;
+  searchParams: Promise<{ blog?: string; examples?: string; tool?: string }>;
 }) {
-  const { blog, examples } = await searchParams;
+  const { blog, examples, tool } = await searchParams;
+
+  // Tool: resume score checker
+  if (tool === "resume-score") {
+    return (
+      <Suspense fallback={null}>
+        <ResumeScorePage />
+      </Suspense>
+    );
+  }
+
+  // Tool: cover letter builder + checker
+  if (tool === "cover-letter") {
+    return (
+      <Suspense fallback={null}>
+        <CoverLetterPage />
+      </Suspense>
+    );
+  }
 
   // Example article (server-rendered for SEO)
   if (examples && examples !== "list") {

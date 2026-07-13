@@ -589,3 +589,92 @@ QA (Agent Browser + VLM):
 
 Stage Summary:
 - 20 diverse templates, hero CV bug fixed (fills container), hammer-forging-resume logo, 100% free messaging, realistic stats, credible varied reviews. All browser-verified.
+
+---
+
+## Task ID: TOOLS (resume score + cover letter)
+**Agent:** Tools Agent (100% client-side free tools)
+**Task:** Build two REAL, working, free-forever client-side tools — Resume Score Checker + Cover Letter Builder/Checker — for forgedCV. SEO wrapper pages + routing + sitemap.
+
+### Work Log
+
+1. **Read context** — Reviewed `worklog.md`, `globals.css` (forge palette: bone #FAFAF9, charcoal #1C1917, forge-orange #EA580C, emerald #059669, `.display-heading`/`.eyebrow`/`.prose-flowcv` utilities), `BlogNav.tsx` (`BlogShell` = sticky-footer flex-col wrapper, `BlogNav`+`BlogFooter` chrome), `BlogList.tsx` (server-component page pattern), `ResumeDocument.tsx` + `default-data.ts` (resume data shape), existing `page.tsx` (server-component searchParams router), and `sitemap.ts`. Confirmed shadcn/ui inventory (Tabs, Card, Button, Textarea, Input, Label, Badge, Progress all present).
+
+2. **Created `src/components/tools/ResumeScoreTool.tsx`** — A fully interactive client-side resume analyzer. The user pastes resume text (or uploads a .txt via FileReader, or clicks "Try a sample") into a Textarea, clicks "Analyze resume" (or waits 500ms — debounced live analysis), and gets:
+   - **Overall score (0–100)** as a big SVG circular progress ring with `stroke-dasharray` animation. Color tiers: forge-orange < 50, amber 50–79, emerald 80+.
+   - **6 category cards** each with icon, score, mini progress bar, and 1–4 detail lines:
+     1. **Length & Format** (15%) — word count vs 400–800 ideal, bullet count, formatting markers.
+     2. **Impact & Achievements** (25%) — quantified-bullet ratio (digits/%/$/million/thousand) + action-verb-bullet ratio (checked against a 100+ verb set: Led, Built, Shipped, Increased, Reduced, Designed, Launched, etc.).
+     3. **Contact Info** (10%) — regex detection of email, phone (10–15 digits), LinkedIn URL/string, location (City, ST pattern across US states + Canadian provinces).
+     4. **Sections** (15%) — keyword matching for Experience / Education / Skills / Summary-Profile / Projects-Certifications (5 × 20 pts).
+     5. **ATS Readiness** (20%) — counts personal pronouns (I/me/my/we/our/us via word-boundary regexes), scans a 35-item cliché list ("responsible for", "team player", "hard worker", "detail-oriented", "results-driven", "think outside the box", "synergy", "leverage", "tasked with", "assisted in", "helped to", "worked on", …), checks dates exist if Experience section present, flags table/column characters.
+     6. **Keywords** (15%) — extracts top 15 meaningful words via token regex with stopword filtering (~120 stopwords incl. resume-structural words), shown as forge-tinted badges with frequency counts.
+   - **Recommendations list** — prioritized (high/medium/low) actionable fixes generated from the issues found. Each fix is specific ("Add metrics to 3 of your bullet points", "Remove 4 personal pronoun(s)", "Add a LinkedIn URL", "Add a Summary or Profile section", "Trim your resume from 1100 to under 800 words"). 18+ possible recommendations.
+   - **CTA card** to the resume builder.
+   - Overall score = weighted average across categories (Length 15 + Impact 25 + Contact 10 + Sections 15 + ATS 20 + Keywords 15 = 100).
+   - Two-column responsive layout (input left, results right) collapsing to single column on mobile.
+   - Accessibility: `sr-only` labels, `aria-describedby` for the textarea meta, keyboard-navigable buttons, ARIA-hidden decorative icons.
+
+3. **Created `src/components/tools/ResumeScorePage.tsx`** — Server-component SEO wrapper using `<BlogShell>`. Renders: hero (eyebrow "Free Resume Checker" in forge-orange, H1 "Check your resume score" with `.display-heading`, subtitle, 3 trust pills), the interactive `ResumeScoreTool`, an SEO copy card (`.prose-flowcv`) explaining how the score is calculated (each of the 6 categories with weighting, what's a good score: 80+ green/50–79 amber/<50 orange, 5 prioritized tips), and a final CTA band linking to `/`.
+
+4. **Created `src/components/tools/CoverLetterTool.tsx`** — A two-mode interactive tool using shadcn Tabs:
+   - **Build mode**: a form (your name, email, phone, city, LinkedIn, company name, job title, hiring manager name, 3 strength points, relevant experience summary, why-this-company) that assembles a polished cover letter in real time using a proven template (header → date → recipient → "Dear X," → opening naming role+company+why → 3 bulleted strengths → experience summary → closing → "Sincerely, [name]"). Live preview pane (sticky on desktop) with Copy button (`navigator.clipboard.writeText`) and Download-as-.txt button (Blob + anchor). Empty optional fields are gracefully skipped so the letter always reads naturally.
+   - **Check mode**: paste an existing cover letter + optional target company/job title → get an instant score (0–100) with the same SVG ring + a quick-check grid (6 binary checks: Greeting, Closing, Company named, Role named, Length 250–400, No clichés) + prioritized recommendations + clichés-detected badge list. Scoring: Length 30 + Greeting 10 + Closing 10 + Company 15 + Job title 15 + Specificity 15 (count of numbers/%/$ amounts) + No-clichés 15 (each cliché -3). 35-item cliché list incl. "i am writing to apply", "perfect fit", "team player", "proven track record", "extensive experience", "passionate about". Also flags "I" density > 12 and paragraph count outside 3–5.
+   - Both modes share the same forge-palette styling, two-column responsive layout, and accessibility patterns as the resume tool.
+
+5. **Created `src/components/tools/CoverLetterPage.tsx`** — Server-component SEO wrapper using `<BlogShell>`. Renders: hero (eyebrow "Free Cover Letter Tool", H1 "Build and check your cover letter", subtitle, trust pills), `CoverLetterTool`, SEO copy (`.prose-flowcv`) explaining how to write a good cover letter, what makes a strong opening (with weak-vs-strong example), 3 things every letter needs, common mistakes, and a breakdown of how the checker scores (7 dimensions with point values), final CTA. Internal links to `/?blog=cover-letter-examples` and `/?blog=short-cover-letter`.
+
+6. **Updated `src/app/page.tsx`** — Added `tool?: string` to the `searchParams` type signature (both in `generateMetadata` and `Page`). Added two routes:
+   - `?tool=resume-score` → `<ResumeScorePage />` wrapped in `<Suspense>`.
+   - `?tool=cover-letter` → `<CoverLetterPage />` wrapped in `<Suspense>`.
+   - Added dedicated `generateMetadata` branches returning proper SEO (title, 155–160 char description, 8 keywords, canonical, openGraph, twitter) for each tool.
+
+7. **Updated `src/app/sitemap.ts`** — Added two new entries at priority 0.9 (high-value tools): `/?tool=resume-score` and `/?tool=cover-letter`, both `changeFrequency: "monthly"`. Total sitemap now 32 URLs.
+
+### Scoring algorithm details (genuine, not random)
+
+**Resume Score** — weighted average of 6 category scores (each 0–100):
+- Length 15%: word count scored against 400–800 sweet spot (25 / 70 / 100 / 80 / 55 by tier) + bullet-count adjustments.
+- Impact 25%: avg(quantified-ratio score, action-verb-ratio score). Quantified tiers: <20%→30, <40%→60, <60%→80, ≥60%→100. Verb tiers: <30%→40, <50%→70, <70%→85, ≥70%→100.
+- Contact 10%: 25 pts each for email regex, phone (10–15 digit) regex, LinkedIn string, location (City, ST or "Location:" label).
+- Sections 15%: 20 pts each for Experience / Education / Skills / Summary / Projects-Certs keyword detection.
+- ATS 20%: starts at 100, deducts 5 per pronoun hit (max -25), 8 per cliché (max -30), -20 for missing dates in experience, -10 for table chars.
+- Keywords 15%: distinct meaningful word count tiers (<5→35, <10→65, <20→85, ≥20→100).
+
+**Cover Letter Score** — sum of 7 dimensions (each weighted):
+- Length 30 pts (250–400 ideal, tiered deductions outside).
+- Greeting 10 pts (regex: Dear/Hi/Hello/To whom it may concern at start of first paragraph).
+- Closing 10 pts (regex: Sincerely/Best regards/Kind regards/Regards/Thank you/Thanks/Respectfully in last paragraph).
+- Company 15 pts (matches target company if provided; else heuristic for "joined/joining/at <Capitalized>").
+- Job title 15 pts (matches target role if provided; else "role/position/opportunity" keyword).
+- Specificity 15 pts (count of numbers/%/$ amounts: 0→0, 1→8, 2→12, 3+→15).
+- No clichés 15 pts (each of 35 clichés found = -3, min 0).
+
+### Verification
+
+- **`bun run lint`** — passes clean (0 errors, 0 warnings) across the whole repo. Initial run flagged one parsing error from escaped quotes in a JSX `hint="..."` attribute (CoverLetterTool line 580) — fixed by switching to `hint={'..."Hiring Manager"...'}` expression syntax.
+- **`npx tsc --noEmit`** — 0 errors in any new file (`src/components/tools/*`, `src/app/page.tsx`, `src/app/sitemap.ts`). The only tsc errors in the repo are pre-existing ones in `examples/websocket/` and `skills/` folders, both unrelated to this task.
+- **Runtime smoke tests via curl** — All three new routes return 200 with correct content:
+  - `GET /?tool=resume-score` → 200, contains "Free Resume Checker", "Check your resume score", "Analyze resume", "How your resume score is calculated". Title: "Free Resume Score Checker — Instant Resume Review | forgedCV". Description + keywords meta tags present.
+  - `GET /?tool=cover-letter` → 200, contains "Free Cover Letter Tool", "Build and check your cover letter", "Build a letter", "Check a letter", "How to write a good cover letter", "Common cover letter mistakes". Title: "Free Cover Letter Builder & Checker | forgedCV".
+  - `GET /sitemap.xml` → 200, contains `<loc>https://forgedcv.com/?tool=resume-score</loc>` and `<loc>https://forgedcv.com/?tool=cover-letter</loc>` at the top of the URL list, both priority 0.9.
+- **`dev.log`** — clean, no compile errors. Final entries show both tool routes compiling and rendering in 40–80ms after first compile.
+
+### Design decisions
+
+- **100% client-side, no API calls** — All analysis logic is pure TypeScript functions running in the browser. No fetch, no AI SDK, no server calls. Tools are free forever and work offline once loaded.
+- **Weighted average over start-at-100-deduct** — Chose weighted average (Length 15 / Impact 25 / Contact 10 / Sections 15 / ATS 20 / Keywords 15) for the resume score because it feels fairer: a missing email doesn't tank the whole score, but a 0 on Impact (no quantified bullets, no verbs) will drag it down meaningfully. Cover letter uses sum-of-dimensions (each dimension pre-weighted to total 100) because the checks are more atomic and each one is genuinely pass/fail-ish.
+- **Score ring color tiers** — Forge-orange < 50, amber 50–79, emerald 80+. This matches the forge palette (forge-orange = problem, emerald2 = success) and gives users an instant visual read.
+- **Debounced live analysis (500ms)** + **explicit Analyze button** — Both work. The debounce gives instant feedback as the user types/pastes; the button gives them control and a clear CTA.
+- **Sample resume** — Built into the resume tool ("Try a sample" button) so users can see what the analysis looks like without having to paste anything. The sample intentionally includes 3 strong verb-led quantified bullets AND 3 weak cliché-laden bullets so the tool demonstrates both good and bad detection.
+- **Cover letter template** — Genuinely good, not generic. Opens with the role+company (not "I am writing to apply"), uses 3 bulleted strengths (recruiters skim), ties experience in a 1–2 sentence summary, and closes with a forward-looking sentence + "Sincerely". Empty optional fields are gracefully skipped so the letter always reads naturally even mid-edit.
+- **Cliché lists are aggressive** — 35 cover-letter clichés + 35 resume clichés. Yes, "leverage" is flagged. Yes, "passionate about" is flagged. These ARE the words that make recruiters tune out.
+- **Action verb list is large** — 100+ verbs (Led/Built/Shipped/Increased/Reduced/Designed/Launched/Created/Developed/Implemented/Managed/Drove/Delivered/Improved/Optimized/Architected/Engineered/…). Matches the first word of each bullet only (lowercased), which is the convention resume coaches teach.
+- **Forge palette throughout** — Charcoal `bg-primary` for footer/CTA, forge-orange `bg-forge` for the score ring and active Analyze button, emerald `text-emerald2` for high scores and "no issues" states, bone `bg-background` page, white `bg-card` cards with `shadow-[0_2px_12px_-6px_rgba(28,25,23,0.14)]` and `ring-1 ring-black/5`. `.display-heading` for H1s. `.eyebrow` for hero labels (forge-orange-tinted on the tool pages).
+- **Sticky footer rule** — Both pages use `<BlogShell>` which has `flex min-h-screen flex-col` root + `mt-auto` footer, so the footer always sticks to the bottom even when content is short.
+- **Internal linking** — Cover letter SEO copy links to `/?blog=cover-letter-examples` and `/?blog=short-cover-letter` (existing articles). Resume score SEO copy links to `/?examples=list`. CTAs link to `/` (the builder).
+- **Accessibility** — `sr-only` labels on textareas, `aria-describedby` for meta info, `aria-hidden` on decorative SVG/icons, keyboard-navigable buttons, semantic `<fieldset>`/`<legend>` for grouped form fields in the cover letter builder.
+
+### Stage Summary
+
+Two production-ready, genuinely useful 100% client-side tools shipped. Both render correctly, lint clean, type-check clean, return proper SEO metadata, and are in the sitemap at priority 0.9. The analysis logic is real regex/keyword work — no random scores, no AI calls. A user pasting a real resume gets specific, actionable feedback (e.g. "Add metrics to 3 more of your bullet points", "Remove 4 personal pronoun(s)", "Replace 2 generic phrase(s) like 'responsible for'"). A user building a cover letter gets a polished, ready-to-send letter they can copy or download as .txt. Total: 4 new files (~1900 lines), 2 files updated.
