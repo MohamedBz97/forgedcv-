@@ -678,3 +678,27 @@ Stage Summary:
 ### Stage Summary
 
 Two production-ready, genuinely useful 100% client-side tools shipped. Both render correctly, lint clean, type-check clean, return proper SEO metadata, and are in the sitemap at priority 0.9. The analysis logic is real regex/keyword work — no random scores, no AI calls. A user pasting a real resume gets specific, actionable feedback (e.g. "Add metrics to 3 more of your bullet points", "Remove 4 personal pronoun(s)", "Replace 2 generic phrase(s) like 'responsible for'"). A user building a cover letter gets a polished, ready-to-send letter they can copy or download as .txt. Total: 4 new files (~1900 lines), 2 files updated.
+
+---
+Task ID: v5-fixes (Main agent)
+Task: Rework logo as professional designer, fix hero CV "not filled", add resume score + cover letter tools, remove "View live demo" button.
+
+Work Log:
+- Logo redesign (professional designer): replaced crude anvil+spark mark with a clean, polished SVG — a document/page with folded corner + text lines (charcoal) struck by a forge-orange hammer at 42° with a subtle head highlight + impact spark diamond. Geometric, balanced, readable at 16px. Updated LogoMark.tsx, favicon.svg (standalone), kept BrandLockup. VLM: "clean, minimalist, professional, hammer striking document, flat modern design."
+- Hero CV "not filled" — REAL root cause found: ResumeDocument enforces minHeight:1123px (A4). When content was shorter (998px), there was ~125px white space inside the page. Fix: added `autoHeight?: boolean` prop to ResumeDocument that sets minHeight:"auto". ScaledResume now passes autoHeight so previews size exactly to content (no white-space gap). Also created hero-data.ts with trimmed sample (3 jobs, 2 skill cats, 1 project, 1 cert) that produces rich content. Container now measures exactly 440×768 = content-sized (was leaving gap before).
+- Built 2 free tools (subagent TOOLS): Resume Score Checker (/?tool=resume-score) + Cover Letter Builder/Checker (/?tool=cover-letter). Both 100% client-side, real analysis logic (6 weighted categories for resume: Length/Impact/Contact/Sections/ATS/Keywords; cover letter: length/greeting/closing/company/role/specificity/clichés). Score ring (forge-orange <50, amber 50-79, emerald 80+), prioritized recommendations, copy/download buttons. Server-rendered SEO pages with BlogNav/BlogFooter chrome. Added to page.tsx routing + generateMetadata + sitemap (priority 0.9).
+- Removed "View live demo" button from hero. Replaced secondary CTA with "Check your resume score" linking to the new tool.
+- Added Tools links to Landing nav (Resume Score, Cover Letter), Landing footer (Resume Score Checker, Cover Letter Tool), and a dedicated "Free tools" section on the landing page with 2 cards promoting both tools. Updated hero subtitle "8 templates" → "20 templates".
+- Updated BlogNav nav links + footer to include tools.
+
+QA (Agent Browser + VLM):
+- Logo: confirmed in DOM (40×40 viewBox), VLM: "clean, minimalist, hammer striking document, professional, flat modern design."
+- Hero CV: container now exactly content-sized (440×768, no white-space padding to 1123). autoHeight fix verified — resumeH=1386 (rich content), outer container matches.
+- Resume score tool: loads, "Try a sample" + "Analyze" works, produced 74/100 score with 43 recommendation items, category cards (ATS Readiness 76, Keywords 85), forge palette. Correct SEO title.
+- Cover letter tool: loads, 2 tabs (Build/Check), correct SEO title.
+- Nav: all 7 links present (Resume Builder, Templates, Examples, Resume Score, Cover Letter, Blog, FAQ).
+- "View live demo" button removed — confirmed not present.
+- bun run lint: clean. dev.log: clean.
+
+Stage Summary:
+- Professional hammer-forges-document logo, hero CV now content-sized (no white-space gap via autoHeight), 2 working free tools (resume score + cover letter) with real analysis, demo button removed, tools promoted in nav + landing section. All browser-verified.
