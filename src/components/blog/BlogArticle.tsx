@@ -67,7 +67,7 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
 
     case "quote":
       return (
-        <blockquote className="my-6 border-l-4 border-coral bg-secondary/40 py-3 pl-5 pr-4 text-lg italic leading-relaxed text-foreground">
+        <blockquote className="my-6 border-l-4 border-forge bg-secondary/40 py-3 pl-5 pr-4 text-lg italic leading-relaxed text-foreground">
           <p className="m-0">&ldquo;{block.text}&rdquo;</p>
           {block.cite ? (
             <footer className="mt-2 text-sm not-italic text-muted-foreground">
@@ -111,7 +111,7 @@ function RelatedCard({ post }: { post: BlogPost }) {
       <h3 className="mt-3 text-base font-bold leading-snug tracking-tight text-foreground line-clamp-2">
         {post.title}
       </h3>
-      <span className="mt-auto pt-4 text-sm font-semibold text-primary transition-colors group-hover:text-coral">
+      <span className="mt-auto pt-4 text-sm font-semibold text-primary transition-colors group-hover:text-forge">
         Read &rarr;
       </span>
     </a>
@@ -134,7 +134,7 @@ function buildArticleJsonLd(post: BlogPost) {
     },
     publisher: {
       "@type": "Organization",
-      name: "CVForge",
+      name: "forgedCV",
     },
     datePublished: post.date,
     dateModified: post.updated || post.date,
@@ -225,7 +225,7 @@ export function BlogArticle({ post }: { post: BlogPost }) {
           <div className="mx-auto max-w-3xl text-center">
             <a
               href={`/?blog=list#category-${categorySlug}`}
-              className="inline-flex items-center rounded-full bg-coral/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-coral"
+              className="inline-flex items-center rounded-full bg-forge/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-forge"
             >
               {post.category}
             </a>
@@ -275,7 +275,7 @@ export function BlogArticle({ post }: { post: BlogPost }) {
               href="/"
               className="mt-7 inline-flex h-12 items-center justify-center rounded-xl bg-background px-7 text-sm font-semibold text-primary transition-transform hover:scale-[1.02]"
             >
-              Build my resume &nbsp;✨
+              Forge my resume &nbsp;✨
             </a>
           </div>
         </section>
@@ -310,7 +310,7 @@ export function BlogArticle({ post }: { post: BlogPost }) {
           <div className="mx-auto max-w-3xl text-center">
             <a
               href="/?blog=list"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-coral"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-forge"
             >
               <span aria-hidden="true">&larr;</span> Back to blog
             </a>

@@ -37,96 +37,100 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-cream: var(--cream);
-  --color-aubergine: var(--aubergine);
-  --color-coral: var(--coral);
+  --color-bone: var(--bone);
+  --color-charcoal: var(--charcoal);
+  --color-forge: var(--forge);
+  --color-forge-dark: var(--forge-dark);
+  --color-ember: var(--ember);
+  --color-steel: var(--steel);
   --color-emerald2: var(--emerald2);
-  --color-teal2: var(--teal2);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* FlowCV-inspired design tokens */
+/* forgedCV design tokens — "forge" palette: charcoal + molten orange */
 :root {
-  --radius: 0.5rem; /* 8px default — flowcv's most common radius */
+  --radius: 0.5rem; /* 8px default */
 
-  /* Signature warm cream page background */
-  --cream: #F0EEEB;
-  --aubergine: #200E32;     /* flowcv's "black" — deep aubergine/purple-black */
-  --coral: #FF5F64;         /* emphasis accent */
-  --emerald2: #28AE7B;      /* success / popular badge */
-  --teal2: #61B9B3;         /* secondary accent */
+  /* Signature forge palette */
+  --bone: #FAFAF9;          /* warm off-white page background (cooler than cream) */
+  --charcoal: #1C1917;      /* stone-900 — forged steel, the brand "black" */
+  --forge: #EA580C;         /* orange-600 — molten forge fire, THE signature accent */
+  --forge-dark: #C2410C;    /* orange-700 — hover/deeper */
+  --ember: #F97316;         /* orange-500 — brighter accent */
+  --steel: #57534E;         /* stone-600 — muted text */
+  --emerald2: #059669;      /* emerald-600 — success/trust */
 
-  --background: #F0EEEB;
-  --foreground: #000000;
+  --background: #FAFAF9;
+  --foreground: #1C1917;
   --card: #FFFFFF;
-  --card-foreground: #000000;
+  --card-foreground: #1C1917;
   --popover: #FFFFFF;
-  --popover-foreground: #000000;
+  --popover-foreground: #1C1917;
 
-  /* Primary = aubergine (CTAs, footer, icons) */
-  --primary: #200E32;
-  --primary-foreground: #FFFFFF;
+  /* Primary = charcoal (CTAs, footer, icons) */
+  --primary: #1C1917;
+  --primary-foreground: #FAFAF9;
 
-  --secondary: #E8E1DA;
-  --secondary-foreground: #200E32;
+  --secondary: #F5F5F4;
+  --secondary-foreground: #1C1917;
 
-  --muted: #F3F4F6;
-  --muted-foreground: #616977; /* flowcv's custom gray-blue */
+  --muted: #F5F5F4;
+  --muted-foreground: #57534E;
 
-  --accent: #FF5F64;        /* coral accent */
+  --accent: #EA580C;        /* forge orange */
   --accent-foreground: #FFFFFF;
 
-  --destructive: #FF5F64;
-  --border: #E5E7EB;        /* flowcv's hairline border */
-  --input: #E5E7EB;
-  --ring: #200E32;
+  --destructive: #DC2626;
+  --border: #E7E5E4;        /* stone-200 hairline */
+  --input: #E7E5E4;
+  --ring: #1C1917;
 
-  --chart-1: #200E32;
-  --chart-2: #61B9B3;
-  --chart-3: #FF5F64;
-  --chart-4: #28AE7B;
-  --chart-5: #9499B7;
+  --chart-1: #1C1917;
+  --chart-2: #EA580C;
+  --chart-3: #059669;
+  --chart-4: #0D9488;
+  --chart-5: #78716C;
 
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #200E32;
-  --sidebar-primary: #200E32;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F0EEEB;
-  --sidebar-accent-foreground: #200E32;
-  --sidebar-border: #E5E7EB;
-  --sidebar-ring: #200E32;
+  --sidebar-foreground: #1C1917;
+  --sidebar-primary: #1C1917;
+  --sidebar-primary-foreground: #FAFAF9;
+  --sidebar-accent: #FAFAF9;
+  --sidebar-accent-foreground: #1C1917;
+  --sidebar-border: #E7E5E4;
+  --sidebar-ring: #1C1917;
 }
 
 .dark {
-  --background: #1a1326;
-  --foreground: #F0EEEB;
-  --card: #200E32;
-  --card-foreground: #F0EEEB;
-  --popover: #200E32;
-  --popover-foreground: #F0EEEB;
-  --primary: #F0EEEB;
-  --primary-foreground: #200E32;
-  --secondary: #2a1a40;
-  --secondary-foreground: #F0EEEB;
-  --muted: #2a1a40;
-  --muted-foreground: #9499B7;
-  --accent: #FF5F64;
-  --accent-foreground: #FFFFFF;
-  --destructive: #FF5F64;
-  --border: #3a2a50;
-  --input: #3a2a50;
-  --ring: #F0EEEB;
-  --sidebar: #200E32;
-  --sidebar-foreground: #F0EEEB;
-  --sidebar-primary: #F0EEEB;
-  --sidebar-primary-foreground: #200E32;
-  --sidebar-accent: #2a1a40;
-  --sidebar-accent-foreground: #F0EEEB;
-  --sidebar-border: #3a2a50;
-  --sidebar-ring: #F0EEEB;
+  --background: #1C1917;
+  --foreground: #FAFAF9;
+  --card: #292524;
+  --card-foreground: #FAFAF9;
+  --popover: #292524;
+  --popover-foreground: #FAFAF9;
+  --primary: #FAFAF9;
+  --primary-foreground: #1C1917;
+  --secondary: #292524;
+  --secondary-foreground: #FAFAF9;
+  --muted: #292524;
+  --muted-foreground: #A8A29E;
+  --accent: #F97316;
+  --accent-foreground: #1C1917;
+  --destructive: #DC2626;
+  --border: #44403C;
+  --input: #44403C;
+  --ring: #FAFAF9;
+  --sidebar: #292524;
+  --sidebar-foreground: #FAFAF9;
+  --sidebar-primary: #FAFAF9;
+  --sidebar-primary-foreground: #1C1917;
+  --sidebar-accent: #292524;
+  --sidebar-accent-foreground: #FAFAF9;
+  --sidebar-border: #44403C;
+  --sidebar-ring: #FAFAF9;
 }
 
 @layer base {

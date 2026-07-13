@@ -9,6 +9,7 @@ import { useResumeStore } from "@/lib/resume-store";
 import { TEMPLATES } from "@/lib/templates";
 import { defaultResumeData, defaultSettings } from "@/lib/default-data";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
+import { Wordmark } from "@/components/brand/Wordmark";
 
 const TAGS = ["All", "Simple", "Sidebar", "ATS-friendly", "Modern", "Creative", "Minimal"];
 
@@ -47,16 +48,18 @@ export function TemplateGallery() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <button
             onClick={() => setView("landing")}
-            className="flex items-center gap-1.5 text-xl font-bold tracking-tight"
+            aria-label="forgedCV home"
           >
-            <span className="text-foreground">cvforge</span>
-            <span className="size-1.5 rounded-full bg-coral translate-y-2" />
+            <Wordmark />
           </button>
           <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/70 md:flex">
             <button onClick={() => setView("landing")} className="transition-colors hover:text-foreground">
               Resume Builder
             </button>
-            <span className="font-semibold text-foreground">Resume Templates</span>
+            <span className="font-semibold text-foreground">Templates</span>
+            <a href="/?examples=list" className="transition-colors hover:text-foreground">
+              Examples
+            </a>
             <a href="/?blog=list" className="transition-colors hover:text-foreground">
               Blog
             </a>
@@ -191,12 +194,9 @@ export function TemplateGallery() {
       {/* Footer */}
       <footer className="bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
-          <div className="flex items-center gap-1.5 text-base font-bold">
-            <span>cvforge</span>
-            <span className="size-1.5 rounded-full bg-coral translate-y-1.5" />
-          </div>
+          <Wordmark size="sm" className="text-primary-foreground" />
           <p className="text-xs text-primary-foreground/60">
-            © {new Date().getFullYear()} CVForge. No watermarks. No hidden fees.
+            © {new Date().getFullYear()} forgedCV. No watermarks. No hidden fees.
           </p>
           <button
             onClick={() => setView("landing")}

@@ -23,6 +23,7 @@ import { useResumeStore } from "@/lib/resume-store";
 import { TEMPLATES } from "@/lib/templates";
 import { defaultResumeData, defaultSettings } from "@/lib/default-data";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
+import { Wordmark } from "@/components/brand/Wordmark";
 import {
   Accordion,
   AccordionContent,
@@ -62,7 +63,7 @@ const FREE_PLAN = [
   {
     icon: ShieldCheck,
     title: "Just you on your resume",
-    desc: "No CVForge logo. No watermarks. No \"built with\" badges. Your resume looks 100% yours.",
+    desc: "No forgedCV logo. No watermarks. No \"built with\" badges. Your resume looks 100% yours.",
   },
   {
     icon: Download,
@@ -133,8 +134,8 @@ const TESTIMONIALS = [
 
 const FAQS = [
   {
-    q: "Is CVForge really free?",
-    a: "Yes. Build, customize, and download as many resume PDFs as you want — no credit card, no trial, no watermark. We make CVForge free because we believe everyone deserves a fair shot at a job application.",
+    q: "Is forgedCV really free?",
+    a: "Yes. Build, customize, and download as many resume PDFs as you want — no credit card, no trial, no watermark. We keep forgedCV free because we believe everyone deserves a fair shot at a job application.",
   },
   {
     q: "Are the templates ATS-friendly?",
@@ -142,7 +143,7 @@ const FAQS = [
   },
   {
     q: "Will there be a watermark on my resume?",
-    a: "Never. Your downloaded PDF contains zero CVForge branding — no logos, no \"built with\" footer, no watermarks of any kind. The resume is entirely yours.",
+    a: "Never. Your downloaded PDF contains zero forgedCV branding — no logos, no \"built with\" footer, no watermarks of any kind. The resume is entirely yours.",
   },
   {
     q: "Do I need to create an account?",
@@ -175,20 +176,19 @@ export function Landing() {
       {/* Nav */}
       <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <a
-            href="/"
-            className="flex items-center gap-1.5 text-xl font-bold tracking-tight"
-          >
-            <span className="text-foreground">cvforge</span>
-            <span className="size-1.5 rounded-full bg-coral translate-y-2" />
+          <a href="/" aria-label="forgedCV home">
+            <Wordmark />
           </a>
           <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/70 md:flex">
             <button onClick={() => setView("templates")} className="transition-colors hover:text-foreground">
               Resume Builder
             </button>
             <button onClick={() => setView("templates")} className="transition-colors hover:text-foreground">
-              Resume Templates
+              Templates
             </button>
+            <a href="/?examples=list" className="transition-colors hover:text-foreground">
+              Examples
+            </a>
             <a href="/?blog=list" className="transition-colors hover:text-foreground">
               Blog
             </a>
@@ -229,11 +229,11 @@ export function Landing() {
             >
               <p className="eyebrow">Free online resume builder</p>
               <h1 className="display-heading text-5xl text-foreground sm:text-6xl lg:text-7xl">
-                Build a job-winning resume for free
+                Forge a resume that gets you hired
               </h1>
               <p className="max-w-xl text-lg text-foreground/70 text-pretty">
-                Your first resume is 100% free forever. Unlimited downloads. No
-                hidden fees. No watermarks. Yes, really 🚀
+                Free resume builder with 8 ATS-friendly templates. Unlimited PDF
+                downloads. No watermarks, no hidden fees. Forge yours in minutes 🔥
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
@@ -241,7 +241,7 @@ export function Landing() {
                   className="h-12 rounded-xl bg-primary px-7 text-base font-semibold text-primary-foreground hover:opacity-90"
                   onClick={() => setView("templates")}
                 >
-                  Get started for free ✨
+                  Start forging for free ✨
                 </Button>
                 <Button
                   size="lg"
@@ -336,7 +336,7 @@ export function Landing() {
               Create a professional resume in minutes
             </h2>
             <p className="mt-3 text-foreground/65">
-              CVForge makes it easy to create and edit your resume (CV). Here&apos;s
+              forgedCV makes it easy to create and edit your resume (CV). Here&apos;s
               how it works:
             </p>
           </div>
@@ -488,7 +488,7 @@ export function Landing() {
                   transition={{ duration: 0.4, delay: i * 0.03 }}
                   className="rounded-xl bg-card p-6 shadow-[0_2px_12px_-6px_rgba(32,14,50,0.12)] ring-1 ring-black/5"
                 >
-                  <Quote className="size-6 text-coral/40" />
+                  <Quote className="size-6 text-forge/40" />
                   <p className="mt-2 text-sm leading-relaxed text-foreground/80">
                     {t.quote}
                   </p>
@@ -582,12 +582,9 @@ export function Landing() {
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="grid gap-8 sm:grid-cols-3">
             <div>
-              <div className="flex items-center gap-1.5 text-lg font-bold">
-                <span>cvforge</span>
-                <span className="size-1.5 rounded-full bg-coral translate-y-2" />
-              </div>
+              <Wordmark size="lg" className="text-primary-foreground" />
               <p className="mt-3 max-w-xs text-sm text-primary-foreground/60">
-                Free online resume builder. Build a job-winning resume in minutes,
+                Free online resume builder. Forge a job-winning resume in minutes,
                 download unlimited PDFs, no watermarks.
               </p>
             </div>
@@ -605,6 +602,11 @@ export function Landing() {
                   <button onClick={() => setView("templates")} className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">
                     Resume Templates
                   </button>
+                </li>
+                <li>
+                  <a href="/?examples=list" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">
+                    Resume Examples
+                  </a>
                 </li>
                 <li>
                   <a href="/?blog=list" className="text-primary-foreground/80 transition-colors hover:text-primary-foreground">

@@ -18,13 +18,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cvforge.app"),
+  metadataBase: new URL("https://forgedcv.com"),
   title: {
-    default: "CVForge — Free Online Resume Builder | CV Maker",
-    template: "%s | CVForge",
+    default: "forgedCV — Free Online Resume Builder | CV Maker",
+    template: "%s | forgedCV",
   },
   description:
-    "Build a professional, ATS-ready resume for free in minutes. Easy to use. Unlimited downloads. No watermarks. No hidden fees. Top-rated by users.",
+    "Build a professional, ATS-ready resume for free in minutes. 8 customizable templates, unlimited PDF downloads, no watermarks. Forge a resume that gets you hired.",
   keywords: [
     "free resume builder",
     "resume maker",
@@ -35,22 +35,22 @@ export const metadata: Metadata = {
     "cover letter",
     "job interview",
   ],
-  authors: [{ name: "CVForge" }],
-  creator: "CVForge",
+  authors: [{ name: "forgedCV" }],
+  creator: "forgedCV",
   icons: {
     icon: "/logo.svg",
   },
   openGraph: {
-    title: "CVForge — Free Online Resume Builder | CV Maker",
+    title: "forgedCV — Free Online Resume Builder | CV Maker",
     description:
       "Build a professional, ATS-ready resume for free in minutes. Unlimited downloads. No watermarks. No hidden fees.",
-    url: "https://cvforge.app",
-    siteName: "CVForge",
+    url: "https://forgedcv.com",
+    siteName: "forgedCV",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "CVForge — Free Online Resume Builder",
+    title: "forgedCV — Free Online Resume Builder",
     description:
       "Build a professional, ATS-ready resume for free in minutes. No watermarks. No hidden fees.",
   },

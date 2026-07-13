@@ -65,7 +65,7 @@ function PostCard({ post }: { post: BlogPost }) {
       </div>
 
       {/* Read link pinned to bottom */}
-      <span className="mt-auto pt-5 text-sm font-semibold text-primary transition-colors group-hover:text-coral">
+      <span className="mt-auto pt-5 text-sm font-semibold text-primary transition-colors group-hover:text-forge">
         Read article &rarr;
       </span>
     </a>
@@ -184,11 +184,32 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
           </section>
         ))}
 
+        {/* Examples promo */}
+        <section className="px-4 py-16 sm:px-6">
+          <div className="mx-auto max-w-5xl rounded-2xl bg-secondary p-8 ring-1 ring-black/5 sm:p-12">
+            <p className="eyebrow">Resume examples</p>
+            <h2 className="display-heading mt-2 text-2xl text-foreground sm:text-3xl">
+              See it done right, then do it yourself
+            </h2>
+            <p className="mt-3 max-w-2xl text-foreground/65">
+              Sometimes the best way to learn is to look at a finished example.
+              We built fully-loaded resume samples for the most-searched roles —
+              load any of them into the builder with one click and make it yours.
+            </p>
+            <a
+              href="/?examples=list"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-xl bg-forge px-6 text-sm font-semibold text-white transition-colors hover:bg-forge-dark"
+            >
+              Browse resume examples
+            </a>
+          </div>
+        </section>
+
         {/* CTA band */}
-        <section className="px-4 py-20 sm:px-6">
+        <section className="px-4 py-16 sm:px-6">
           <div className="mx-auto max-w-5xl rounded-2xl bg-primary px-6 py-14 text-center text-primary-foreground sm:px-12">
             <h2 className="display-heading text-3xl sm:text-4xl">
-              Build your resume while you&apos;re here
+              Forge your resume while you&apos;re here
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-primary-foreground/75">
               Turn what you just read into a resume you&apos;ll actually send.

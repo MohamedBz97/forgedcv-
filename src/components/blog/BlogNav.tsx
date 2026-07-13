@@ -18,7 +18,7 @@ interface NavLink {
 const NAV_LINKS: NavLink[] = [
   { label: "Resume Builder", href: "/" },
   { label: "Templates", href: "/" },
-  { label: "Pricing", href: "/" },
+  { label: "Examples", href: "/?examples=list" },
   { label: "Blog", href: "/?blog=list" },
 ];
 
@@ -32,11 +32,11 @@ export function BlogNav({ active }: { active?: "blog" }) {
         {/* Wordmark */}
         <a
           href="/"
-          className="flex items-center gap-1 text-xl font-extrabold tracking-tight text-primary"
-          aria-label="CVForge home"
+          className="text-xl font-extrabold tracking-tight"
+          aria-label="forgedCV home"
         >
-          <span>cvforge</span>
-          <span aria-hidden="true" className="text-coral">.</span>
+          <span className="text-primary">forged</span>
+          <span className="text-forge">CV</span>
         </a>
 
         {/* Center nav links */}
@@ -100,7 +100,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Resume Builder", href: "/" },
       { label: "Templates", href: "/" },
-      { label: "Pricing", href: "/" },
+      { label: "Examples", href: "/?examples=list" },
     ],
   },
   {
@@ -121,14 +121,14 @@ export function BlogFooter() {
           <div className="col-span-2 sm:col-span-2">
             <a
               href="/"
-              className="flex items-center gap-1 text-2xl font-extrabold tracking-tight"
-              aria-label="CVForge home"
+              className="text-2xl font-extrabold tracking-tight"
+              aria-label="forgedCV home"
             >
-              <span>cvforge</span>
-              <span aria-hidden="true" className="text-coral">.</span>
+              <span className="text-primary-foreground">forged</span>
+              <span className="text-forge">CV</span>
             </a>
             <p className="mt-3 max-w-xs text-sm text-primary-foreground/70">
-              Build a resume that actually gets read. Free, fast, and made by
+              Forge a resume that actually gets read. Free, fast, and made by
               people who hire.
             </p>
           </div>

@@ -334,3 +334,187 @@ QA (Agent Browser + VLM):
 
 Stage Summary:
 - Full flowcv.com design adaptation (cream + aubergine + DM Sans + sections + icon tiles + friendly copy) + 10-article SEO blog (server-rendered, JSON-LD, sitemap, per-article metadata). Production-ready, browser-verified across landing/templates/editor/blog-list/blog-article/mobile. Notably MORE feature-complete than flowcv itself (flowcv has no blog).
+
+---
+
+## Task ID: SEO-B (resume examples data)
+**Agent:** Resume Examples Agent (role-specific SEO landing pages)
+**Task:** Build 8 role-specific resume example pages data for forgedCV — fully-rendered sample resumes + SEO copy, in a single TypeScript module `src/lib/blog/examples.ts`. Mimics flowcv.com's highest-traffic pages but adds a live rendered resume via ResumeDocument.
+
+### Work Log
+
+1. **Read context** — Reviewed `worklog.md` (prior tasks: 8 CV templates + ResumeDocument wrapper, editor sections, landing/shell, 10-article blog content + blog UI, flowcv redesign). Read `src/lib/types.ts` for the exact `ResumeData` / `ResumeSettings` / `PersonalInfo` / `ExperienceItem` / `EducationItem` / `SkillCategory` / `SkillItem` / `ProjectItem` / `CertificationItem` / `LanguageItem` / `CourseItem` / `TemplateId` shapes. Read `src/lib/default-data.ts` for the canonical structure of a complete `ResumeData` + the default `sectionOrder` (`["experience","education","skills","projects","certifications","languages","courses"]`). Read `src/lib/templates.ts` for the 8 template IDs (`modern`, `classic`, `minimal`, `creative`, `professional`, `executive`, `tech`, `elegant`).
+
+2. **Created `src/lib/blog/examples.ts`** — Single self-contained TypeScript module exporting:
+   - `ResumeExample` interface — exactly per spec: `slug`, `role`, `category`, `title`, `metaDescription` (150-160 chars), `keywords[]` (4-7), `excerpt`, `readTime`, `data: ResumeData`, `settings: ResumeSettings`, `intro`, `whatToInclude[]`, `keySkills[]`, `bulletExamples: {weak, strong}[]`, `relatedTemplates?`.
+   - `makeSettings(templateId, accentColor)` helper — builds a `ResumeSettings` with shared defaults (`fontFamily: "DM Sans"`, `fontSize: "base"`, `spacing: "normal"`, `showPhoto: false`, the canonical `sectionOrder`). Avoids repeating 6 identical fields 8 times.
+   - `RESUME_EXAMPLES: ResumeExample[]` — the 8 examples.
+   - `getExampleBySlug(slug)` — lookup.
+   - `getAllExamples()` — returns all 8 in declared order.
+   - `getRelatedExamples(slug, n=3)` — same-category first, backfills from other categories in array order, always excludes self (mirrors the pattern from `blog/posts.ts:getRelatedPosts`).
+   - `EXAMPLE_CATEGORIES` — unique category list derived from data: `["Technology", "Healthcare", "Education", "Business", "Creative"]`.
+
+3. **Wrote 8 role-specific examples** with realistic, fully-built `ResumeData` and matching SEO copy. Each example ships a complete sample resume that the ResumeDocument component can render directly (3 jobs, 1-2 education entries, 2 skill categories with 5-6 skills each at level 1-5, 1-2 projects, 2-3 certifications, 2-3 languages, 1 course). Templates varied across the 8 examples to showcase template diversity in the gallery:
+
+   | # | Slug | Role | Name | Template | Accent | Category |
+   |---|------|------|------|----------|--------|----------|
+   | 1 | software-engineer-resume | Software Engineer | Daniel Okonkwo | tech | #0F766E (teal) | Technology |
+   | 2 | data-analyst-resume | Data Analyst | Mei-Ling Chen | modern | #1C1917 (stone) | Technology |
+   | 3 | registered-nurse-resume | Registered Nurse | Maria Santos | classic | #134E4A (deep teal) | Healthcare |
+   | 4 | teacher-resume | Teacher | James Whitfield | classic | #7C2D12 (warm brown) | Education |
+   | 5 | marketing-manager-resume | Marketing Manager | Aaliyah Johnson | professional | #9D174D (magenta) | Business |
+   | 6 | project-manager-resume | Project Manager | Rohan Kapoor | executive | #1C1917 (stone) | Business |
+   | 7 | customer-service-resume | Customer Service Rep | Carlos Mendoza | minimal | #15803D (green) | Business |
+   | 8 | graphic-designer-resume | Graphic Designer | Yuki Tanaka | creative | #EA580C (orange) | Creative |
+
+   Template assignment respects the spec: graphic designer uses `creative` with `#EA580C`; nurse and teacher use `classic`; the other 5 vary (`tech`, `modern`, `professional`, `executive`, `minimal`) so the gallery shows 7 of the 8 templates.
+
+4. **Diverse, realistic names** across all 8 examples (varied gender + ethnicity hints via name, no repeat of the default Alex Morgan): Daniel Okonkwo (Nigerian), Mei-Ling Chen (Chinese), Maria Santos (Filipina), James Whitfield (Caucasian), Aaliyah Johnson (African American), Rohan Kapoor (South Asian), Carlos Mendoza (Latino), Yuki Tanaka (Japanese).
+
+5. **Strong resume bullets** — every experience bullet follows the action-verb + task + metric pattern. Examples of the bar:
+   - "Architected a Go-based event streaming pipeline processing 40M+ events/day, reducing ingestion latency from 800ms to 90ms p99."
+   - "Designed a churn-prediction model (XGBoost, AUC 0.89) that flagged 18K at-risk accounts and drove $4.2M in retained ARR."
+   - "Reduced CLABSI to zero over 14 months by leading a bundled-care initiative adopted unit-wide."
+   - "Raised AP English Literature pass rate from 71% to 92% over 5 cohorts by redesigning the unit arc around timed-write cycles."
+   - "Scaled paid social spend from $200K/mo to $1.8M/mo on Meta and TikTok while holding CAC payback under 9 months."
+   - "Led delivery of a $50M+ cross-border payments modernization program across 7 engineering teams, shipping on time and 4% under budget."
+   - "Resolved 60-80 customer contacts per day across chat, email, and phone, sustaining a 97.4% CSAT and a 2:14 median first-response time."
+   - "Designed the brand's first sustainable packaging system, reducing plastic use by 38% across 14 SKUs and earning a Fast Company World Changing Ideas mention."
+   73 total bullets across the 8 examples; the few qualitative bullets establish scope/adoption (e.g., "Co-authored an internal RFC framework now used across 9 engineering teams") rather than padding filler.
+
+6. **Role-appropriate extras** — certifications match the role: AWS SAA-Pro + CKA for SWE, Google Analytics + dbt for analyst, RN + BLS/ACLS + CCRN for nurse, CO Teaching License + AP Lit for teacher, Google Ads + HubSpot for marketer, PMP + SAFe for PM, HDI + LinkedIn CSR for service, Adobe + Google UX for designer. Projects included on every example (tech/creative get 2; others get 1 framed as a real initiative — QI bundle, PBL unit, Bilingual Pod, Program Health Dashboard, etc.). Languages vary (Igbo, Mandarin, Tagalog+Spanish, Spanish, French, Hindi, Spanish, Japanese) — bilingual ability is a real differentiator and shows up in the data.
+
+7. **SEO copy per example** — every example has:
+   - `metaDescription` 150-160 chars, all verified programmatically (range: 152-160). Each includes "[role] resume example", "live, rendered sample", and "forgedCV".
+   - `intro` (2-3 sentences, 380-490 chars) explaining what makes a great [role] resume.
+   - `whatToInclude` — 6 role-specific tips per example (48 total). SWE tips mention GitHub, system scale, tech stack per role; nurse tips mention license/ACLS/CCRN, infection rates, preceptorship; teacher tips mention license, IEP/ELL, pass rates; etc.
+   - `keySkills` — 10-12 skills per example (mix of hard + soft) for SEO and a skills display section.
+   - `bulletExamples` — 4 weak-vs-strong rewrites per example (32 total) showing exactly how to improve each role's bullets. Each weak bullet is a real common mistake; each strong bullet is a metric-led rewrite.
+   - `relatedTemplates` — 3 template IDs per example, picked to suit the role (e.g., SWE → tech/modern/minimal; graphic designer → creative/modern/elegant; PM → executive/professional/classic).
+
+8. **Internal structure / type conformance** — Every `ResumeData` conforms exactly to `src/lib/types.ts`:
+   - All required `PersonalInfo` fields present (strings, empty string for unused like nurse's `github`).
+   - `experience[].description` uses `\n`-separated bullet strings (3-4 per job).
+   - `education[].degree` is short ("BS", "MS", "BFA", "BSN", "AA", "MA"); `field` is the subject.
+   - `skillCategories` is an array of `{ id, name, skills: SkillItem[] }`; every `SkillItem` has `level` 1-5 (mostly 4-5, since these are senior example resumes).
+   - `projects` includes `technologies` (comma-separated string) per type.
+   - `certifications` includes `issuer` and `date`.
+   - All `id` fields are unique within each example (`exp1/exp2/exp3`, `edu1/edu2`, `sk1/sk2`, `s1..s12`, `pr1/pr2`, `c1/c2/c3`, `l1/l2/l3`, `co1`).
+
+### Verification
+
+- **`bun run lint`** — passes clean (0 errors, 0 warnings across the whole repo).
+- **`npx tsc --noEmit`** — 0 errors in `src/lib/blog/examples.ts`. (Only pre-existing tsc errors remain in `examples/websocket/` and `skills/` folders, both unrelated to this task and noted in prior worklog entries.)
+- **Runtime validation via bun** — wrote a quick verification script that:
+  - Confirmed 8 examples, 5 unique categories.
+  - Confirmed all 8 `metaDescription`s are 150-160 chars (after one fix: trimmed "Copy the ICU-friendly" → "Copy ICU-friendly" to bring nurse from 161 → 157).
+  - Confirmed every example has: summary, 2+ experience entries, 1+ education, 2 skill categories with 4+ skills each at valid levels, 1+ cert, 1+ language, 1+ course, intro 100+ chars, 5+ whatToInclude tips, 10+ keySkills, 3+ bulletExamples, 2+ relatedTemplates.
+  - Confirmed `getExampleBySlug('graphic-designer-resume').role === "Graphic Designer"` and `getRelatedExamples('teacher-resume')` returns 3 cross-category examples (Education only has 1 example, so it backfills from Technology/Healthcare).
+- **`dev.log`** — clean, no compile errors after the file was created.
+
+### Design decisions
+
+- **Single file, no UI** — Per the task spec, only `examples.ts` was created. The next agent (SEO example pages UI) can consume `RESUME_EXAMPLES`, `getExampleBySlug`, `getAllExamples`, `getRelatedExamples`, and `EXAMPLE_CATEGORIES` and render each example at `/?example={slug}` using `<ResumeDocument data={ex.data} settings={ex.settings} />` for the live preview.
+- **`makeSettings` helper** — The 6 shared settings fields (`fontFamily`, `fontSize`, `spacing`, `showPhoto`, `sectionOrder`) are identical across all 8 examples per the spec. Centralizing them in a factory prevents divergence and makes it trivial to globally change (e.g., if we later want all examples to use a different default font).
+- **Templates vary across the 8 examples** — Per spec directive: graphic designer → creative (#EA580C), nurse/teacher → classic, the other 5 vary (tech, modern, professional, executive, minimal) so the gallery showcases 7 of our 8 templates. Only `elegant` is unused as a primary example template (it's still referenced in `relatedTemplates` for graphic designer).
+- **Accent colors are role-appropriate** — teal for SWE (developer-aesthetic, pairs with the dark Tech template sidebar); stone for data analyst (neutral, modern); deep teal for nurse (calm, healthcare); warm brown for teacher (warmth, education); magenta for marketer (bold, brand-forward); stone for executive PM (conservative gravitas); green for CSR (friendly, approachable); orange for graphic designer (as specified, vibrant/creative).
+- **Section order is the default** — Used the canonical `["experience","education","skills","projects","certifications","languages","courses"]` order from `default-data.ts` for all 8 examples. The ResumeDocument/templates don't actually consume `sectionOrder` (templates render sections in a template-specific fixed order, per the template-builder agent's worklog note), but keeping it consistent with the editor's default means a user who opens any example in the editor sees the same ordering they'd see in their own resume.
+- **`getRelatedExamples` mirrors `getRelatedPosts`** — Same algorithm: same-category first, backfill across categories in array order, always exclude self. This means examples in singleton categories (Healthcare has only nurse, Education has only teacher, Creative has only graphic designer) still get 3 related examples surfaced from other categories. Returns 3 by default but accepts `n` for flexibility.
+- **`relatedTemplates` uses template IDs, not names** — So the UI can directly look them up in `TEMPLATES` from `src/lib/templates.ts` for thumbnail rendering.
+- **Bullets use `\n` separators** — Matches the existing editor convention (per the editor-sections agent's worklog: "description textarea with 'One achievement per line' hint"). So the BulletList helper in `templates/shared.tsx` will split them correctly when rendering.
+- **No placeholder text** — Every field is realistic, polished copy. Even the one "qualitative" bullet per job that lacks a hard number ("Wrote the company's first internal REST API documentation standard, later adopted org-wide") is a legitimate scope/adoption bullet that real senior resumes include.
+- **Bullet examples are role-specific** — Not generic weak/strong pairs. Each set is tailored (SWE: API/migration/caching/mentoring; nurse: ICU/CLABSI/preceptor/HAPI; teacher: class size/pass rate/department/PBL; etc.) so the page actually teaches role-specific resume craft, not just generic verb-first writing.
+
+### Stage Summary
+
+`src/lib/blog/examples.ts` is complete: 8 role-specific `ResumeExample` objects, each with a full `ResumeData` (3 jobs, education, 2 skill categories, projects, certifications, languages, courses) + `ResumeSettings` + SEO copy (intro, 6 tips, 12 key skills, 4 weak-vs-strong bullet rewrites, 3 related templates). Lint clean, tsc clean, runtime-validated. Helper functions (`getExampleBySlug`, `getAllExamples`, `getRelatedExamples`, `EXAMPLE_CATEGORIES`) match the patterns established by the blog posts module. Ready to be consumed by the SEO example-pages UI agent.
+
+
+---
+
+## Task ID: SEO-A
+**Agent:** Senior SEO Content Strategist (forgedCV blog — 10 NEW articles)
+
+### Task
+Write 10 NEW high-quality, SEO-optimized blog articles for forgedCV, targeting the highest-traffic keywords competitor flowcv.com does NOT cover. Add them to `src/lib/blog/posts.ts` without breaking existing exports.
+
+### Work Log
+
+**File modified:** `src/lib/blog/posts.ts`
+
+Added 10 new `BlogPost` objects (positions 11–20 in the `BLOG_POSTS` array), immediately before the closing `];`. Existing 10 articles and all helpers (`getPostBySlug`, `getAllPosts`, `getRelatedPosts`, `BLOG_CATEGORIES`) untouched and still functional.
+
+**Authorship:** New articles authored as `forgedCV Team` (rebranded from CVForge). Existing articles retain `CVForge Team`. Internal cross-references in new articles use the forgedCV brand name.
+
+**Voice match:** Friendly, direct, confident career-mentor tone. Uses "you" and "we". 1–2 tasteful emoji per article (✨, 🚀, ⚒️). Concrete numbers, real examples, varied sentence length. Avoided AI-tells ("Furthermore", "Moreover", "In conclusion", "When it comes to", "It's important to note that").
+
+**Content block usage:** All 10 articles use a mix of p, h2, h3, ul, ol, tip, and quote blocks.
+
+**Internal linking (new → existing + new):**
+- resume-format → ats-friendly-resume, how-to-write-a-resume, chronological-vs-functional-resume
+- resume-objective-examples → resume-summary-examples, career-change-at-30
+- resume-skills-section → ats-friendly-resume, resume-mistakes-to-avoid
+- chronological-vs-functional-resume → resume-format
+- cover-letter-examples → how to write a cover letter (cover-letter-guide), short-cover-letter, career-change-at-30
+- short-cover-letter → career-change-at-30, cover-letter-examples
+- interview-questions → job-interview-preparation, thank-you-email-after-interview, negotiate-salary
+- thank-you-email-after-interview → job-interview-preparation
+- two-weeks-notice-letter → career-change-at-30
+- federal-resume → resume-format, ats-friendly-resume
+
+### Articles Added (slug | title | category | est. word count | primary keyword)
+
+1. `resume-format` | "Best Resume Format for 2025 (with Examples)" | Resumes | ~980w | resume format
+2. `resume-objective-examples` | "Resume Objective Examples for Every Situation" | Resumes | ~930w | resume objective
+3. `resume-skills-section` | "How to Write a Resume Skills Section (with 50+ Examples)" | Resumes | ~990w | resume skills section
+4. `chronological-vs-functional-resume` | "Chronological vs Functional Resume: Which Format Wins?" | Resumes | ~1080w | chronological vs functional resume
+5. `cover-letter-examples` | "50+ Cover Letter Examples for Every Job in 2025" | Cover Letters | ~1450w (FLAGSHIP) | cover letter examples
+6. `short-cover-letter` | "How to Write a Short Cover Letter (with Templates)" | Cover Letters | ~970w | short cover letter
+7. `interview-questions` | "Top 50 Interview Questions and How to Answer Them" | Interviews | ~1450w (FLAGSHIP) | interview questions
+8. `thank-you-email-after-interview` | "Thank You Email After Interview: 10 Templates That Work" | Interviews | ~990w | thank you email after interview
+9. `two-weeks-notice-letter` | "Two Weeks Notice Letter: Templates and Examples" | Career Change | ~1180w | two weeks notice letter
+10. `federal-resume` | "How to Write a Federal Resume (Complete Guide)" | Resumes | ~1180w | federal resume
+
+Total: ~11,200 words across 10 new articles.
+
+### Verification
+
+- `bun run lint` — passes clean (no errors in posts.ts)
+- `npx tsc --noEmit` — no TypeScript errors in posts.ts (errors in unrelated example/skill files are pre-existing)
+- All 20 articles present in `BLOG_POSTS` array (10 existing + 10 new)
+- All helper functions intact and unmodified
+- `BLOG_CATEGORIES` auto-derives 5 categories: Resumes, Cover Letters, Interviews, Career Change, Job Offers (no new category introduced)
+
+---
+Task ID: forgedcv-rebrand (Main agent)
+Task: Rebrand to forgedCV.com with a NEW distinctive "forge" color palette (charcoal + forge-orange, NOT flowcv's cream+aubergine). Expand SEO content to outplay flowcv: 10 new articles + 8 resume example pages. Maximize traffic via strongest keywords.
+
+Traffic/competitive analysis:
+- Searched flowcv.com traffic via web search (Similarweb/Semrush). Flowcv is a fast-growing resume builder, traffic primarily from India + US, audience skews 25-34, NO paid search (100% organic SEO), NO blog.
+- Flowcv's #1 traffic driver = role-specific resume example pages (software engineer resume, nurse resume, etc.).
+- Strategy to outplay: (1) build the blog they don't have, targeting highest-volume keywords they ignore (interview questions ~400K/mo, two-weeks-notice ~200K/mo, resume format, cover letter examples); (2) build BETTER resume example pages with live rendered sample resumes + one-click "load into builder"; (3) distinctive brand/colors to stand out.
+
+Work Log:
+- New "forge" palette in globals.css: bone background #FAFAF9, charcoal primary #1C1917 (forged steel), forge-orange accent #EA580C (molten fire), emerald #059669 for success. Distinctly different from flowcv's cream+aubergine+coral.
+- Rebranded everywhere: forgedCV wordmark ("forged" charcoal + "CV" forge-orange) via reusable Wordmark component. Updated layout metadata (forgedcv.com), all nav, footers, copy ("Forge a resume that gets you hired", "Forge my resume", "Start forging for free").
+- Built 10 NEW blog articles (subagent SEO-A): resume-format, resume-objective-examples, resume-skills-section, chronological-vs-functional-resume, cover-letter-examples (flagship), short-cover-letter, interview-questions (flagship ~1450w), thank-you-email-after-interview, two-weeks-notice-letter, federal-resume. ~11,200 words. Total blog now 20 articles.
+- Built 8 resume example pages (subagent SEO-B): software-engineer, data-analyst, registered-nurse, teacher, marketing-manager, project-manager, customer-service, graphic-designer. Each has full ResumeData + SEO copy + weak-vs-strong bullet rewrites + related templates.
+- Updated page.tsx: server component now routes ?examples=list (ExamplesList), ?examples=slug (ExampleArticle), ?blog=list, ?blog=slug, and bare / (app). generateMetadata returns per-page SEO metadata for examples too.
+- Built ExamplesList.tsx (server component): hero, category-grouped grid with live resume preview thumbnails, CTA.
+- Built ExampleArticle.tsx (server component): breadcrumbs, H1, rendered sample resume (full-size ResumeDocument), SEO copy (what to include, key skills chips, weak-vs-strong bullet rewrites, tip callout), "Use this example" button (loads data into builder via LoadExampleButton client component), related templates, related examples, 2 JSON-LD scripts (Article + BreadcrumbList).
+- Built LoadExampleButton.tsx (client): loads example ResumeData into Zustand store + navigates to editor.
+- Updated sitemap.ts: 30 URLs (home + examples list + 8 examples + blog list + 20 articles) with priorities. robots.ts → forgedcv.com/sitemap.xml.
+- Added "Examples" link to all navs (Landing, TemplateGallery, BlogNav) + footer. Added examples promo section to BlogList.
+
+QA (Agent Browser + VLM):
+- Landing: forgedCV wordmark confirmed, "Forge a resume that gets you hired" headline, charcoal+forge-orange palette confirmed (bg rgb(250,250,249) bone), VLM: "distinctly different from cream+aubergine".
+- Examples list: 8 cards with live resume previews, orange category badges, role names visible. Mobile responsive.
+- Example article (software-engineer): correct title + H1, 2 JSON-LD scripts, rendered resume (Daniel Okonkwo, Tech template with dark sidebar, K8s/AWS/Docker skills), weak-vs-strong bullets, "Use this example" button WORKS (loaded into builder, navigated to editor).
+- Blog: 20 articles present, interview-questions flagship renders (11,714 chars body, correct title/H1/JSON-LD).
+- Sitemap: 30 URLs served correctly.
+- Mobile (390px): examples list renders responsively, single column, no overflow.
+- Had a stale .next cache issue ("module not found" for ExampleArticle) — fixed by clearing .next and restarting dev server. All subsequent renders clean.
+- bun run lint: clean. dev.log: 0 errors after restart.
+
+Stage Summary:
+- forgedCV.com fully rebranded with distinctive forge palette (charcoal + forge-orange). 20 SEO articles + 8 resume example pages with live rendered samples = 30 indexable URLs. Examples have one-click "load into builder" (a feature flowcv doesn't have). Targets the strongest keywords flowcv ignores (interview questions, two-weeks-notice, resume format, cover letter examples). Production-ready, browser-verified.

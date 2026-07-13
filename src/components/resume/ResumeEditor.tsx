@@ -94,8 +94,7 @@ export function ResumeEditor() {
             <ArrowLeft className="size-4" />
           </Button>
           <div className="flex items-center gap-1.5">
-            <span className="text-lg font-bold tracking-tight text-foreground">cvforge</span>
-            <span className="size-1.5 rounded-full bg-coral translate-y-1.5" />
+            <span className="text-lg font-bold tracking-tight text-foreground">forged<span className="text-forge">CV</span></span>
           </div>
           <div className="mx-1 hidden h-6 w-px bg-black/10 sm:block" />
           <Input
