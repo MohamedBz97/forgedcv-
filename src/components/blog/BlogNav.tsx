@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
+import { LogoMark } from "@/components/brand/LogoMark";
 
 /**
- * Shared chrome (top nav + footer) for the CVForge blog.
+ * Shared chrome (top nav + footer) for the forgedCV blog + examples.
  *
  * Server component — uses plain <a> tags so it stays SEO-friendly and
  * works without any client JS. Links to the resume builder app root
@@ -29,14 +30,17 @@ export function BlogNav({ active }: { active?: "blog" }) {
         className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6"
         aria-label="Primary"
       >
-        {/* Wordmark */}
+        {/* Wordmark + logo */}
         <a
           href="/"
-          className="text-xl font-extrabold tracking-tight"
+          className="flex items-center gap-2"
           aria-label="forgedCV home"
         >
-          <span className="text-primary">forged</span>
-          <span className="text-forge">CV</span>
+          <LogoMark className="size-7" />
+          <span className="text-xl font-extrabold tracking-tight">
+            <span className="text-primary">forged</span>
+            <span className="text-forge">CV</span>
+          </span>
         </a>
 
         {/* Center nav links */}
@@ -121,15 +125,18 @@ export function BlogFooter() {
           <div className="col-span-2 sm:col-span-2">
             <a
               href="/"
-              className="text-2xl font-extrabold tracking-tight"
+              className="flex items-center gap-2"
               aria-label="forgedCV home"
             >
-              <span className="text-primary-foreground">forged</span>
-              <span className="text-forge">CV</span>
+              <LogoMark className="size-8" />
+              <span className="text-2xl font-extrabold tracking-tight">
+                <span className="text-primary-foreground">forged</span>
+                <span className="text-forge">CV</span>
+              </span>
             </a>
             <p className="mt-3 max-w-xs text-sm text-primary-foreground/70">
-              Forge a resume that actually gets read. Free, fast, and made by
-              people who hire.
+              100% free resume builder. Forge a resume that actually gets read.
+              20 templates, unlimited PDFs, no watermarks.
             </p>
           </div>
 

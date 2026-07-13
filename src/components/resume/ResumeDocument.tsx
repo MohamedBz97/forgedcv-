@@ -11,6 +11,18 @@ import { ProfessionalTemplate } from "./templates/ProfessionalTemplate";
 import { ExecutiveTemplate } from "./templates/ExecutiveTemplate";
 import { TechTemplate } from "./templates/TechTemplate";
 import { ElegantTemplate } from "./templates/ElegantTemplate";
+import { BoldTemplate } from "./templates/BoldTemplate";
+import { CompactTemplate } from "./templates/CompactTemplate";
+import { AcademicTemplate } from "./templates/AcademicTemplate";
+import { DesignerTemplate } from "./templates/DesignerTemplate";
+import { CorporateBlueTemplate } from "./templates/CorporateBlueTemplate";
+import { FreshTemplate } from "./templates/FreshTemplate";
+import { MonoTemplate } from "./templates/MonoTemplate";
+import { SidebarDarkTemplate } from "./templates/SidebarDarkTemplate";
+import { TwoColLightTemplate } from "./templates/TwoColLightTemplate";
+import { BannerPhotoTemplate } from "./templates/BannerPhotoTemplate";
+import { TimelineTemplate } from "./templates/TimelineTemplate";
+import { GridSkillsTemplate } from "./templates/GridSkillsTemplate";
 
 interface ResumeDocumentProps {
   data: ResumeData;
@@ -41,6 +53,30 @@ function renderTemplate(id: TemplateId, data: ResumeData, settings: ResumeSettin
       return <TechTemplate data={data} settings={settings} />;
     case "elegant":
       return <ElegantTemplate data={data} settings={settings} />;
+    case "bold":
+      return <BoldTemplate data={data} settings={settings} />;
+    case "compact":
+      return <CompactTemplate data={data} settings={settings} />;
+    case "academic":
+      return <AcademicTemplate data={data} settings={settings} />;
+    case "designer":
+      return <DesignerTemplate data={data} settings={settings} />;
+    case "corporate-blue":
+      return <CorporateBlueTemplate data={data} settings={settings} />;
+    case "fresh":
+      return <FreshTemplate data={data} settings={settings} />;
+    case "mono":
+      return <MonoTemplate data={data} settings={settings} />;
+    case "sidebar-dark":
+      return <SidebarDarkTemplate data={data} settings={settings} />;
+    case "two-col-light":
+      return <TwoColLightTemplate data={data} settings={settings} />;
+    case "banner-photo":
+      return <BannerPhotoTemplate data={data} settings={settings} />;
+    case "timeline":
+      return <TimelineTemplate data={data} settings={settings} />;
+    case "grid-skills":
+      return <GridSkillsTemplate data={data} settings={settings} />;
     default:
       return <ModernTemplate data={data} settings={settings} />;
   }

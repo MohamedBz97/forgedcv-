@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   authors: [{ name: "forgedCV" }],
   creator: "forgedCV",
   icons: {
-    icon: "/logo.svg",
+    icon: "/favicon.svg",
   },
   openGraph: {
     title: "forgedCV — Free Online Resume Builder | CV Maker",

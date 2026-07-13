@@ -96,7 +96,19 @@ export type TemplateId =
   | "professional"
   | "executive"
   | "tech"
-  | "elegant";
+  | "elegant"
+  | "bold"
+  | "compact"
+  | "academic"
+  | "designer"
+  | "corporate-blue"
+  | "fresh"
+  | "mono"
+  | "sidebar-dark"
+  | "two-col-light"
+  | "banner-photo"
+  | "timeline"
+  | "grid-skills";
 
 export interface TemplateMeta {
   id: TemplateId;

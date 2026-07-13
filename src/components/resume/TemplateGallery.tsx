@@ -9,7 +9,7 @@ import { useResumeStore } from "@/lib/resume-store";
 import { TEMPLATES } from "@/lib/templates";
 import { defaultResumeData, defaultSettings } from "@/lib/default-data";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
-import { Wordmark } from "@/components/brand/Wordmark";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 
 const TAGS = ["All", "Simple", "Sidebar", "ATS-friendly", "Modern", "Creative", "Minimal"];
 
@@ -50,7 +50,7 @@ export function TemplateGallery() {
             onClick={() => setView("landing")}
             aria-label="forgedCV home"
           >
-            <Wordmark />
+            <BrandLockup />
           </button>
           <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/70 md:flex">
             <button onClick={() => setView("landing")} className="transition-colors hover:text-foreground">
@@ -194,7 +194,7 @@ export function TemplateGallery() {
       {/* Footer */}
       <footer className="bg-primary text-primary-foreground">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
-          <Wordmark size="sm" className="text-primary-foreground" />
+          <BrandLockup size="sm" onDark />
           <p className="text-xs text-primary-foreground/60">
             © {new Date().getFullYear()} forgedCV. No watermarks. No hidden fees.
           </p>

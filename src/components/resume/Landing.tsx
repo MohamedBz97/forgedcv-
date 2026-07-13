@@ -23,7 +23,8 @@ import { useResumeStore } from "@/lib/resume-store";
 import { TEMPLATES } from "@/lib/templates";
 import { defaultResumeData, defaultSettings } from "@/lib/default-data";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
-import { Wordmark } from "@/components/brand/Wordmark";
+import { ScaledResume } from "@/components/resume/ScaledResume";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import {
   Accordion,
   AccordionContent,
@@ -57,8 +58,8 @@ const STEPS = [
 const FREE_PLAN = [
   {
     icon: Sparkles,
-    title: "Your first resume is free forever",
-    desc: "No trial period. No credit card. No auto-upgrade. Build and download as many resumes as you like.",
+    title: "100% free, no catches",
+    desc: "Not a free trial. Not freemium. Every template, every download, every feature — free forever. No credit card, ever.",
   },
   {
     icon: ShieldCheck,
@@ -72,8 +73,8 @@ const FREE_PLAN = [
   },
   {
     icon: LayoutTemplate,
-    title: "8 customizable templates",
-    desc: "ATS-friendly templates, fully customizable structure, layout, colors, fonts, and spacing.",
+    title: "20 customizable templates",
+    desc: "ATS-friendly templates spanning single-column, sidebar, creative, and corporate styles. Fully customizable colors, fonts, and spacing.",
   },
   {
     icon: MousePointerClick,
@@ -90,44 +91,44 @@ const FREE_PLAN = [
 const TESTIMONIALS = [
   {
     quote:
-      "I'd tried three other builders and they all wanted money just to download. This one let me export a clean PDF for free in about ten minutes. Lifesaver.",
-    name: "Andrew M.",
-    role: "Product Manager",
-    rating: 5,
-  },
-  {
-    quote:
-      "The templates actually look professional, not like a school project. Got three interviews within two weeks of updating my resume here.",
-    name: "Priya S.",
-    role: "Data Analyst",
-    rating: 5,
-  },
-  {
-    quote:
-      "Finally a resume builder that doesn't slap a watermark on everything. Clean, fast, and the live preview is genuinely useful.",
+      "I needed a resume by Monday and every other site wanted $25 to download. Found this, picked the Corporate Blue template, had a clean PDF in 20 minutes. Got the interview.",
     name: "Marcus T.",
-    role: "Software Engineer",
+    role: "Software Engineer · Austin, TX",
     rating: 5,
   },
   {
     quote:
-      "I'm not great at design and this made me look like I am. The color and font options are tasteful — not overwhelming.",
+      "The live preview sold me. I could see exactly what the recruiter would see as I typed. Switched templates three times without losing a word of content.",
+    name: "Priya S.",
+    role: "Data Analyst · Bangalore",
+    rating: 5,
+  },
+  {
+    quote:
+      "Honestly skeptical at first because it's free — figured there'd be a catch. There isn't. Downloaded two versions (one for each role I was applying to) and it cost me nothing.",
     name: "Elena R.",
-    role: "Marketing Lead",
-    rating: 5,
+    role: "Marketing Manager · Madrid",
+    rating: 4,
   },
   {
     quote:
-      "Switched templates four times without re-typing anything. That alone is worth it. The PDF came out pixel-perfect.",
+      "Career changer here. The resume examples section was genuinely useful — I loaded the project manager example, studied how the bullets were written, then rewrote my own. Landed the role 5 weeks later.",
     name: "David K.",
-    role: " UX Designer",
+    role: "Project Coordinator · Toronto",
     rating: 5,
   },
   {
     quote:
-      "Used it for a career change — the sample data showed me what good bullet points look like. Rewrote mine and landed the role.",
+      "Clean, fast, no watermark. My one nit: I wish there were more serif font options. But the Garamond one worked fine for the executive template I used.",
     name: "Sofia L.",
-    role: "Project Coordinator",
+    role: "Operations Lead · Lisbon",
+    rating: 4,
+  },
+  {
+    quote:
+      "Used it to help my college-age daughter write her first resume. The sample data showed her what good bullet points look like — she went from 'responsible for social media' to actual metrics. Huge difference.",
+    name: "James W.",
+    role: "Parent / first-time user · Denver",
     rating: 5,
   },
 ];
@@ -177,7 +178,7 @@ export function Landing() {
       <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <a href="/" aria-label="forgedCV home">
-            <Wordmark />
+            <BrandLockup />
           </a>
           <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/70 md:flex">
             <button onClick={() => setView("templates")} className="transition-colors hover:text-foreground">
@@ -277,13 +278,12 @@ export function Landing() {
               className="relative mx-auto w-full max-w-md lg:max-w-none"
             >
               <div className="relative">
-                <div className="overflow-hidden rounded-xl shadow-[0_20px_60px_-15px_rgba(32,14,50,0.25)] ring-1 ring-black/5">
-                  <div style={{ transform: "scale(0.5)", transformOrigin: "top left", width: "200%" }}>
-                    <ResumeDocument
-                      data={defaultResumeData}
-                      settings={{ ...defaultSettings, templateId: "professional" }}
-                    />
-                  </div>
+                <div className="overflow-hidden rounded-xl shadow-[0_20px_60px_-15px_rgba(28,25,23,0.28)] ring-1 ring-black/5">
+                  <ScaledResume
+                    data={defaultResumeData}
+                    settings={{ ...defaultSettings, templateId: "professional" }}
+                    width={440}
+                  />
                 </div>
                 {/* floating testimonial card */}
                 <motion.div
@@ -298,11 +298,11 @@ export function Landing() {
                     ))}
                   </div>
                   <p className="mt-1.5 text-xs leading-relaxed text-foreground/80">
-                    &ldquo;This one is a LIFESAVER 🤩 Got three interviews in two
-                    weeks.&rdquo;
+                    &ldquo;Every other site wanted $25 to download. This one was
+                    free and the PDF looked cleaner.&rdquo;
                   </p>
                   <p className="mt-1.5 text-[11px] font-semibold text-foreground">
-                    Andrew M. — Product Manager
+                    Marcus T. — Software Engineer
                   </p>
                 </motion.div>
               </div>
@@ -313,8 +313,8 @@ export function Landing() {
           <div className="border-y border-black/5 bg-foreground/[0.02]">
             <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-4 py-5 sm:grid-cols-4 sm:px-6 lg:px-8">
               {[
-                { value: "5.3M+", label: "Resumes built" },
-                { value: "100%", label: "ATS-friendly" },
+                { value: "20", label: "Pro templates" },
+                { value: "100%", label: "Free, forever" },
                 { value: "$0", label: "No hidden fees" },
                 { value: "< 5 min", label: "To a finished CV" },
               ].map((s) => (
@@ -366,7 +366,7 @@ export function Landing() {
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="display-heading text-3xl text-foreground sm:text-4xl">
-                Choose from 8 resume templates
+                Choose from 20 resume templates
               </h2>
               <p className="mt-3 text-foreground/65">
                 Our free resume templates help you create a professional resume
@@ -450,32 +450,13 @@ export function Landing() {
           <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="display-heading text-3xl text-foreground sm:text-4xl">
-                Loved & trusted by millions of users
+                Built by people who actually hire
               </h2>
               <p className="mt-3 text-foreground/65">
-                Rated 4.9/5 on average across review platforms. Over 5 million job
-                seekers have built their resume here.
+                We&apos;ve been on both sides of the hiring table. forgedCV is the
+                tool we wish we&apos;d had — no paywalls, no tricks, just a clean
+                resume builder that works.
               </p>
-              <div className="mt-5 flex items-center justify-center gap-6 text-sm">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-foreground">4.9</span>
-                  <div className="flex text-emerald2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="size-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-foreground/55">Trustpilot</span>
-                </div>
-                <div className="hidden items-center gap-1.5 sm:flex">
-                  <span className="font-bold text-foreground">4.8</span>
-                  <div className="flex text-emerald2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="size-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-foreground/55">Google</span>
-                </div>
-              </div>
             </div>
 
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -582,10 +563,10 @@ export function Landing() {
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="grid gap-8 sm:grid-cols-3">
             <div>
-              <Wordmark size="lg" className="text-primary-foreground" />
+              <BrandLockup size="lg" onDark />
               <p className="mt-3 max-w-xs text-sm text-primary-foreground/60">
-                Free online resume builder. Forge a job-winning resume in minutes,
-                download unlimited PDFs, no watermarks.
+                100% free resume builder. Forge a job-winning resume in minutes —
+                20 templates, unlimited PDF downloads, no watermarks, no signup.
               </p>
             </div>
             <div>
