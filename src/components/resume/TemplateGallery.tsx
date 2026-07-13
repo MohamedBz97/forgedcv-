@@ -1,23 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Search } from "lucide-react";
+import { ArrowLeft, ArrowRight, Search, Check } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useResumeStore } from "@/lib/resume-store";
 import { TEMPLATES } from "@/lib/templates";
 import { defaultResumeData, defaultSettings } from "@/lib/default-data";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
-import { FileText } from "lucide-react";
 
-const TAGS = ["All", "ATS-friendly", "Sidebar", "Single-column", "Creative", "Modern", "Elegant"];
+const TAGS = ["All", "Simple", "Sidebar", "ATS-friendly", "Modern", "Creative", "Minimal"];
 
 export function TemplateGallery() {
   const setView = useResumeStore((s) => s.setView);
   const setTemplate = useResumeStore((s) => s.setTemplate);
   const loadSample = useResumeStore((s) => s.loadSample);
+  const currentTemplateId = useResumeStore((s) => s.settings.templateId);
   const [filter, setFilter] = useState("All");
   const [query, setQuery] = useState("");
 
@@ -32,11 +31,9 @@ export function TemplateGallery() {
 
   const handleSelect = (id: typeof TEMPLATES[number]["id"]) => {
     setTemplate(id);
-    // If the store has empty data (fresh), load sample so the editor isn't blank
     const data = useResumeStore.getState().data;
     if (!data.personal.fullName && data.experience.length === 0) {
       loadSample();
-      // loadSample sets templateId to default; re-apply chosen template after
       useResumeStore.getState().setTemplate(id);
     } else {
       setView("editor");
@@ -44,51 +41,60 @@ export function TemplateGallery() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-muted/30">
-      {/* Header */}
-      <header className="sticky top-0 z-40 w-full border-b bg-background/90 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col bg-background">
+      {/* Nav */}
+      <header className="sticky top-0 z-40 w-full border-b border-black/5 bg-background/80 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <button
             onClick={() => setView("landing")}
-            className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="flex items-center gap-1.5 text-xl font-bold tracking-tight"
           >
-            <ArrowLeft className="size-4" />
-            Back
+            <span className="text-foreground">cvforge</span>
+            <span className="size-1.5 rounded-full bg-coral translate-y-2" />
           </button>
-          <div className="flex items-center gap-2">
-            <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <FileText className="size-3.5" />
-            </div>
-            <span className="text-base font-semibold">
-              CV<span className="text-primary">Forge</span>
-            </span>
-          </div>
-          <div className="w-16" />
+          <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/70 md:flex">
+            <button onClick={() => setView("landing")} className="transition-colors hover:text-foreground">
+              Resume Builder
+            </button>
+            <span className="font-semibold text-foreground">Resume Templates</span>
+            <a href="/?blog=list" className="transition-colors hover:text-foreground">
+              Blog
+            </a>
+          </nav>
+          <Button
+            size="sm"
+            className="h-10 rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground hover:opacity-90"
+            onClick={() => setView("landing")}
+          >
+            Start now
+          </Button>
         </div>
       </header>
 
       <main className="flex-1">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
           {/* Heading */}
           <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Choose your template
+            <p className="eyebrow">Free resume templates</p>
+            <h1 className="display-heading mt-3 text-4xl text-foreground sm:text-5xl">
+              100+ ways to present yourself
             </h1>
-            <p className="mt-3 text-muted-foreground">
-              Pick a starting point. You can switch templates anytime — your content
-              stays the same.
+            <p className="mt-4 text-foreground/65">
+              Eight hand-crafted, ATS-friendly resume templates — from clean and
+              minimal to bold and creative. Pick one and start editing. Switch
+              anytime without losing your content.
             </p>
           </div>
 
           {/* Filters */}
-          <div className="mt-8 flex flex-col items-center gap-4">
+          <div className="mt-10 flex flex-col items-center gap-4">
             <div className="relative w-full max-w-md">
-              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-foreground/40" />
               <Input
                 placeholder="Search templates..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="pl-9"
+                className="h-11 rounded-xl border-black/10 bg-card pl-10"
               />
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2">
@@ -96,10 +102,10 @@ export function TemplateGallery() {
                 <button
                   key={tag}
                   onClick={() => setFilter(tag)}
-                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                  className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
                     filter === tag
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-background text-muted-foreground hover:text-foreground"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-card text-foreground/60 ring-1 ring-black/5 hover:text-foreground"
                   }`}
                 >
                   {tag}
@@ -109,79 +115,64 @@ export function TemplateGallery() {
           </div>
 
           {/* Grid */}
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.map((t, i) => {
-              const selected = useResumeStore.getState().settings.templateId === t.id;
+              const selected = currentTemplateId === t.id;
               return (
                 <motion.div
                   key={t.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, delay: i * 0.04 }}
-                  className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                  className="group text-left"
                 >
-                  {/* Preview */}
-                  <div className="relative aspect-[1/1.414] overflow-hidden bg-muted/40">
-                    <div
-                      className="absolute left-0 top-0 origin-top-left transition-transform group-hover:scale-[1.02]"
-                      style={{ transform: "scale(0.32)", width: "312.5%" }}
-                    >
-                      <ResumeDocument
-                        data={defaultResumeData}
-                        settings={{ ...defaultSettings, templateId: t.id, accentColor: t.accent }}
-                      />
-                    </div>
-                    {/* overlay on hover */}
-                    <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100">
-                      <div className="w-full p-3">
-                        <Button
-                          size="sm"
-                          className="w-full"
-                          onClick={() => handleSelect(t.id)}
-                        >
-                          {selected ? (
-                            <>
-                              <Check className="size-4" />
-                              Selected
-                            </>
-                          ) : (
-                            <>
-                              Use this template
-                              <ArrowRight className="size-4" />
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Meta */}
-                  <div className="border-t p-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold">{t.name}</h3>
+                  <button
+                    onClick={() => handleSelect(t.id)}
+                    className="block w-full text-left"
+                  >
+                    <div className="relative aspect-[1/1.414] overflow-hidden rounded-lg bg-card shadow-[0_4px_20px_-8px_rgba(32,14,50,0.18)] ring-1 ring-black/5 transition-all group-hover:-translate-y-1 group-hover:shadow-[0_14px_34px_-10px_rgba(32,14,50,0.28)]">
                       <div
-                        className="size-4 rounded-full border"
-                        style={{ backgroundColor: t.accent }}
-                        title="Default accent"
-                      />
+                        className="absolute left-0 top-0 origin-top-left transition-transform duration-300 group-hover:scale-[1.03]"
+                        style={{ transform: "scale(0.32)", width: "312.5%" }}
+                      >
+                        <ResumeDocument
+                          data={defaultResumeData}
+                          settings={{ ...defaultSettings, templateId: t.id, accentColor: t.accent }}
+                        />
+                      </div>
+                      {selected && (
+                        <div className="absolute right-2 top-2 flex size-6 items-center justify-center rounded-full bg-emerald2 text-white shadow">
+                          <Check className="size-3.5" />
+                        </div>
+                      )}
                     </div>
-                    <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
-                      {t.description}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {t.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-[10px] font-normal">
-                          {tag}
-                        </Badge>
-                      ))}
+                  </button>
+                  <div className="mt-3 flex items-center justify-between px-0.5">
+                    <div>
+                      <p className="text-sm font-bold text-foreground">{t.name}</p>
+                      <p className="mt-0.5 line-clamp-1 text-xs text-foreground/55">
+                        {t.description}
+                      </p>
                     </div>
+                    <div
+                      className="size-4 shrink-0 rounded-full ring-1 ring-black/10"
+                      style={{ backgroundColor: t.accent }}
+                      title="Default accent"
+                    />
                   </div>
+                  <button
+                    onClick={() => handleSelect(t.id)}
+                    className="mt-1.5 px-0.5 text-xs font-medium text-foreground/70 underline-offset-2 transition-colors hover:text-primary hover:underline"
+                  >
+                    See template →
+                  </button>
                 </motion.div>
               );
             })}
           </div>
 
           {filtered.length === 0 && (
-            <div className="mt-16 text-center text-muted-foreground">
+            <div className="mt-16 text-center text-foreground/55">
               <p>No templates match your search.</p>
               <Button
                 variant="link"
@@ -196,6 +187,26 @@ export function TemplateGallery() {
           )}
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-primary text-primary-foreground">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
+          <div className="flex items-center gap-1.5 text-base font-bold">
+            <span>cvforge</span>
+            <span className="size-1.5 rounded-full bg-coral translate-y-1.5" />
+          </div>
+          <p className="text-xs text-primary-foreground/60">
+            © {new Date().getFullYear()} CVForge. No watermarks. No hidden fees.
+          </p>
+          <button
+            onClick={() => setView("landing")}
+            className="flex items-center gap-1 text-xs text-primary-foreground/80 hover:text-primary-foreground"
+          >
+            <ArrowLeft className="size-3.5" />
+            Back home
+          </button>
+        </div>
+      </footer>
     </div>
   );
 }

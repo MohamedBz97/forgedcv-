@@ -33,13 +33,13 @@ export function PreviewPanel() {
   return (
     <div className="flex h-full flex-col">
       {/* Zoom toolbar */}
-      <div className="flex items-center justify-between gap-2 border-b bg-muted/40 px-3 py-2">
-        <span className="text-xs font-medium text-muted-foreground">Live preview</span>
+      <div className="flex items-center justify-between gap-2 border-b border-black/5 bg-background/60 px-3 py-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-foreground/50">Live preview</span>
         <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="size-7"
+            className="size-7 text-foreground/60 hover:text-foreground"
             onClick={() => {
               setFitMode(false);
               setZoom((z) => Math.max(0.3, +(z - 0.1).toFixed(2)));
@@ -48,13 +48,13 @@ export function PreviewPanel() {
           >
             <ZoomOut className="size-4" />
           </Button>
-          <span className="w-12 text-center text-xs tabular-nums text-muted-foreground">
+          <span className="w-12 text-center text-xs tabular-nums text-foreground/50">
             {fitMode ? "Fit" : `${Math.round(zoom * 100)}%`}
           </span>
           <Button
             variant="ghost"
             size="icon"
-            className="size-7"
+            className="size-7 text-foreground/60 hover:text-foreground"
             onClick={() => {
               setFitMode(false);
               setZoom((z) => Math.min(2, +(z + 0.1).toFixed(2)));
@@ -66,7 +66,7 @@ export function PreviewPanel() {
           <Button
             variant="ghost"
             size="icon"
-            className="size-7"
+            className="size-7 text-foreground/60 hover:text-foreground"
             onClick={() => {
               setFitMode(true);
               setZoom(1);
@@ -81,7 +81,7 @@ export function PreviewPanel() {
       {/* Preview area */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-auto bg-muted/30 p-4 sm:p-6"
+        className="flex-1 overflow-auto bg-foreground/[0.04] p-4 sm:p-6"
       >
         <div
           className={cn("mx-auto transition-[width]")}

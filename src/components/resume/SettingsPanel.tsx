@@ -29,9 +29,9 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-2xl sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Customize design</DialogTitle>
+          <DialogTitle className="text-xl font-bold tracking-tight">Customize design</DialogTitle>
           <DialogDescription>
             Switch templates, pick an accent color, and fine-tune typography.
           </DialogDescription>
@@ -46,13 +46,13 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
                 <button
                   key={t.id}
                   onClick={() => setTemplate(t.id)}
-                  className={`group relative overflow-hidden rounded-lg border-2 text-left transition-all ${
+                  className={`group relative overflow-hidden rounded-lg text-left transition-all ${
                     settings.templateId === t.id
-                      ? "border-primary ring-2 ring-primary/20"
-                      : "border-border hover:border-primary/40"
+                      ? "ring-2 ring-primary"
+                      : "ring-1 ring-black/5 hover:ring-black/15"
                   }`}
                 >
-                  <div className="relative aspect-[1/1.414] overflow-hidden bg-muted/40">
+                  <div className="relative aspect-[1/1.414] overflow-hidden bg-foreground/[0.03]">
                     <div className="absolute left-0 top-0 origin-top-left" style={{ transform: "scale(0.16)", width: "625%" }}>
                       <ResumeDocument
                         data={defaultResumeData}
@@ -175,7 +175,12 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
         </div>
 
         <DialogFooter>
-          <Button onClick={() => onOpenChange(false)}>Done</Button>
+          <Button
+            className="rounded-xl bg-primary font-semibold text-primary-foreground hover:opacity-90"
+            onClick={() => onOpenChange(false)}
+          >
+            Done
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

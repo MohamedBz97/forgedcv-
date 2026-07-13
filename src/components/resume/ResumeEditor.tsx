@@ -93,19 +93,15 @@ export function ResumeEditor() {
           >
             <ArrowLeft className="size-4" />
           </Button>
-          <div className="flex items-center gap-2">
-            <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <FileText className="size-3.5" />
-            </div>
-            <span className="hidden text-sm font-semibold sm:inline">
-              CV<span className="text-primary">Forge</span>
-            </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-lg font-bold tracking-tight text-foreground">cvforge</span>
+            <span className="size-1.5 rounded-full bg-coral translate-y-1.5" />
           </div>
-          <div className="mx-1 hidden h-6 w-px bg-border sm:block" />
+          <div className="mx-1 hidden h-6 w-px bg-black/10 sm:block" />
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="h-8 w-32 border-transparent bg-transparent px-2 text-sm font-medium hover:bg-muted focus-visible:bg-background focus-visible:ring-1 sm:w-48"
+            className="h-8 w-32 border-transparent bg-transparent px-2 text-sm font-medium hover:bg-foreground/5 focus-visible:bg-background focus-visible:ring-1 sm:w-48"
             placeholder="Untitled Resume"
           />
         </div>
@@ -114,21 +110,36 @@ export function ResumeEditor() {
           <Button
             variant="outline"
             size="sm"
-            className="hidden sm:inline-flex"
+            className="hidden h-9 rounded-lg border-black/15 bg-transparent text-foreground hover:bg-foreground/5 sm:inline-flex"
             onClick={() => setView("templates")}
           >
             <LayoutTemplate className="size-4" />
             Templates
           </Button>
-          <Button variant="outline" size="sm" onClick={() => setSettingsOpen(true)}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-lg border-black/15 bg-transparent text-foreground hover:bg-foreground/5"
+            onClick={() => setSettingsOpen(true)}
+          >
             <Settings2 className="size-4" />
             <span className="hidden sm:inline">Design</span>
           </Button>
-          <Button variant="outline" size="sm" onClick={handleSave} disabled={saving}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-lg border-black/15 bg-transparent text-foreground hover:bg-foreground/5"
+            onClick={handleSave}
+            disabled={saving}
+          >
             {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
             <span className="hidden sm:inline">Save</span>
           </Button>
-          <Button size="sm" onClick={handleDownload}>
+          <Button
+            size="sm"
+            className="h-9 rounded-lg bg-primary font-semibold text-primary-foreground hover:opacity-90"
+            onClick={handleDownload}
+          >
             <Download className="size-4" />
             <span className="hidden sm:inline">Download</span>
           </Button>
@@ -155,7 +166,7 @@ export function ResumeEditor() {
       <div className="flex min-h-0 flex-1">
         {/* Editor pane */}
         <div
-          className={`min-h-0 flex-1 overflow-hidden bg-muted/20 ${
+          className={`min-h-0 flex-1 overflow-hidden bg-foreground/[0.02] ${
             mobileTab === "preview" ? "hidden lg:block" : "block"
           }`}
         >
@@ -168,7 +179,7 @@ export function ResumeEditor() {
 
         {/* Preview pane */}
         <div
-          className={`min-h-0 w-full shrink-0 border-l lg:block lg:w-[46%] xl:w-[48%] ${
+          className={`min-h-0 w-full shrink-0 border-l border-black/5 bg-foreground/[0.03] lg:block lg:w-[46%] xl:w-[48%] ${
             mobileTab === "edit" ? "hidden lg:block" : "block"
           }`}
         >

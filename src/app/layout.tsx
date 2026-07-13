@@ -1,53 +1,62 @@
 import type { Metadata } from "next";
-import { Inter, EB_Garamond, Poppins, Lora, Roboto, Geist_Mono } from "next/font/google";
+import { DM_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 
-const inter = Inter({
-  variable: "--font-inter",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
-});
-
-const garamond = EB_Garamond({
-  variable: "--font-garamond",
-  subsets: ["latin"],
-});
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-});
-
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "CVForge — Build a resume that gets you hired",
+  metadataBase: new URL("https://cvforge.app"),
+  title: {
+    default: "CVForge — Free Online Resume Builder | CV Maker",
+    template: "%s | CVForge",
+  },
   description:
-    "Free resume builder with 8 professionally designed, ATS-friendly templates. Live preview, full customization, and pixel-perfect PDF export.",
-  keywords: ["resume builder", "CV maker", "resume templates", "ATS resume", "free resume builder"],
+    "Build a professional, ATS-ready resume for free in minutes. Easy to use. Unlimited downloads. No watermarks. No hidden fees. Top-rated by users.",
+  keywords: [
+    "free resume builder",
+    "resume maker",
+    "CV builder",
+    "ATS resume",
+    "resume templates",
+    "online resume builder",
+    "cover letter",
+    "job interview",
+  ],
   authors: [{ name: "CVForge" }],
+  creator: "CVForge",
   icons: {
     icon: "/logo.svg",
   },
   openGraph: {
-    title: "CVForge — Build a resume that gets you hired",
-    description: "8 professional templates, live preview, free PDF export.",
+    title: "CVForge — Free Online Resume Builder | CV Maker",
+    description:
+      "Build a professional, ATS-ready resume for free in minutes. Unlimited downloads. No watermarks. No hidden fees.",
+    url: "https://cvforge.app",
+    siteName: "CVForge",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CVForge — Free Online Resume Builder",
+    description:
+      "Build a professional, ATS-ready resume for free in minutes. No watermarks. No hidden fees.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -59,7 +68,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${garamond.variable} ${poppins.variable} ${lora.variable} ${roboto.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${dmSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         {children}
         <Toaster />

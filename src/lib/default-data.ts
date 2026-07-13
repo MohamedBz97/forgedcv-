@@ -128,8 +128,8 @@ export const defaultResumeData: ResumeData = {
 
 export const defaultSettings: ResumeSettings = {
   templateId: "modern",
-  accentColor: "#0f766e",
-  fontFamily: "Inter",
+  accentColor: "#200E32",
+  fontFamily: "DM Sans",
   fontSize: "base",
   spacing: "normal",
   showPhoto: false,
