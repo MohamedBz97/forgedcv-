@@ -81,7 +81,7 @@ export function ExamplesList({ examples }: { examples: ResumeExample[] }) {
 function ExampleCard({ example }: { example: ResumeExample }) {
   return (
     <a
-      href={`/?examples=${example.slug}`}
+      href={`/resume-examples/${example.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl bg-card shadow-[0_2px_12px_-6px_rgba(28,25,23,0.14)] ring-1 ring-black/5 transition-all hover:-translate-y-1 hover:shadow-[0_14px_34px_-10px_rgba(28,25,23,0.22)]"
     >
       {/* Live preview thumbnail */}

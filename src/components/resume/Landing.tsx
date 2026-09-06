@@ -149,12 +149,58 @@ const MARQUEE_ITEMS = [
   "Recruiter-approved",
 ];
 
+const webAppJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "forgedCV",
+  url: "https://forgedcv.com",
+  description:
+    "Free online resume builder with 32 ATS-friendly templates, live preview, and instant PDF downloads — no watermarks, no signup.",
+  applicationCategory: "BusinessApplication",
+  applicationSubCategory: "Resume Builder",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  featureList: [
+    `${templateCount} ATS-friendly templates`,
+    "Live side-by-side preview while you type",
+    "Instant PDF download, no watermark",
+    "Switch templates without losing content",
+    "Ten font families and custom accent colors",
+    "Privacy-first: data stays in your browser",
+  ],
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.a,
+    },
+  })),
+};
+
 export function Landing() {
   const setView = useResumeStore((s) => s.setView);
   const loadSample = useResumeStore((s) => s.loadSample);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <SiteHeader onNavigate={setView} onStart={() => setView("templates")} />
 
       <main className="flex-1">
@@ -169,7 +215,7 @@ export function Landing() {
 
               <h1 className="display-heading mt-5 text-[clamp(2.75rem,6vw,4.25rem)]">
                 <Reveal as="span" className="block" delay={0.1}>
-                  Forge a resume that
+                  Free resume builder that
                 </Reveal>
                 <Reveal as="span" className="block" delay={0.2}>
                   <span className="accent-underline text-forge-700">gets you hired.</span>
@@ -445,7 +491,7 @@ export function Landing() {
               {/* Resume score */}
               <StaggerItem>
                 <a
-                  href="/?tool=resume-score"
+                  href="/tools/resume-score-checker"
                   className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-8 shadow-[var(--shadow-card)] transition-all duration-[var(--dur-long)] ease-[var(--ease-out)] hover:-translate-y-1 hover:border-forge/30 hover:shadow-[var(--shadow-card-hover)]"
                 >
                   <div className="flex items-center justify-between">
@@ -474,7 +520,7 @@ export function Landing() {
               {/* Cover letter */}
               <StaggerItem>
                 <a
-                  href="/?tool=cover-letter"
+                  href="/tools/cover-letter-builder"
                   className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-8 shadow-[var(--shadow-card)] transition-all duration-[var(--dur-long)] ease-[var(--ease-out)] hover:-translate-y-1 hover:border-forge/30 hover:shadow-[var(--shadow-card-hover)]"
                 >
                   <div className="flex items-center justify-between">

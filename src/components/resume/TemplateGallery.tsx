@@ -62,7 +62,7 @@ export function TemplateGallery() {
                 <span className="accent-underline text-forge-700">you&apos;re the one</span>
               </h1>
               <p className="mt-4 max-w-xl text-lg text-ink-2">
-                Twenty hand-tuned, ATS-friendly designs. Pick one and start
+                {TEMPLATES.length} hand-tuned, ATS-friendly designs. Pick one and start
                 editing — switch anytime without losing a single word.
               </p>
             </div>

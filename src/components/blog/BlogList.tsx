@@ -39,7 +39,7 @@ function slugifyCategory(category: string): string {
 function PostCard({ post }: { post: BlogPost }) {
   return (
     <a
-      href={`/?blog=${post.slug}`}
+      href={`/blog/${post.slug}`}
       className="group flex h-full flex-col rounded-xl bg-card p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       {/* Category badge */}
@@ -197,7 +197,7 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
               load any of them into the builder with one click and make it yours.
             </p>
             <a
-              href="/?examples=list"
+              href="/resume-examples"
               className="mt-6 inline-flex h-11 items-center justify-center rounded-xl bg-forge px-6 text-sm font-semibold text-white transition-colors hover:bg-forge-dark"
             >
               Browse resume examples

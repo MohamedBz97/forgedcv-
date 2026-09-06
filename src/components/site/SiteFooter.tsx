@@ -9,24 +9,24 @@ const FOOTER_COLUMNS: { title: string; links: { label: string; href: string }[] 
     title: "Product",
     links: [
       { label: "Resume Builder", href: "/" },
-      { label: "Resume Templates", href: "/" },
-      { label: "Resume Examples", href: "/?examples=list" },
-      { label: "Cover Letter Tool", href: "/?tool=cover-letter" },
+      { label: "Resume Templates", href: "/templates" },
+      { label: "Resume Examples", href: "/resume-examples" },
+      { label: "Cover Letter Tool", href: "/tools/cover-letter-builder" },
     ],
   },
   {
     title: "Free tools",
     links: [
-      { label: "Resume Score Checker", href: "/?tool=resume-score" },
-      { label: "Cover Letter Builder", href: "/?tool=cover-letter" },
-      { label: "Career Resources", href: "/?blog=list" },
+      { label: "Resume Score Checker", href: "/tools/resume-score-checker" },
+      { label: "Cover Letter Builder", href: "/tools/cover-letter-builder" },
+      { label: "Career Resources", href: "/blog" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "Blog", href: "/?blog=list" },
-      { label: "Examples", href: "/?examples=list" },
+      { label: "Blog", href: "/blog" },
+      { label: "Examples", href: "/resume-examples" },
       { label: "FAQ", href: "/#faq" },
     ],
   },

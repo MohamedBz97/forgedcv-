@@ -24,7 +24,7 @@ export function ExampleArticle({ example }: { example: ResumeExample }) {
     keywords: example.keywords.join(", "),
     author: { "@type": "Organization", name: "forgedCV" },
     publisher: { "@type": "Organization", name: "forgedCV" },
-    mainEntityOfPage: `https://forgedcv.com/?examples=${example.slug}`,
+    mainEntityOfPage: `https://forgedcv.com/resume-examples/${example.slug}`,
   };
 
   const breadcrumbLd = {
@@ -32,7 +32,7 @@ export function ExampleArticle({ example }: { example: ResumeExample }) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://forgedcv.com/" },
-      { "@type": "ListItem", position: 2, name: "Examples", item: "https://forgedcv.com/?examples=list" },
+      { "@type": "ListItem", position: 2, name: "Examples", item: "https://forgedcv.com/resume-examples" },
       { "@type": "ListItem", position: 3, name: example.role },
     ],
   };
@@ -56,7 +56,7 @@ export function ExampleArticle({ example }: { example: ResumeExample }) {
             <ol className="flex flex-wrap items-center gap-1.5 text-sm text-foreground/50">
               <li><a href="/" className="hover:text-foreground">Home</a></li>
               <li aria-hidden>/</li>
-              <li><a href="/?examples=list" className="hover:text-foreground">Examples</a></li>
+              <li><a href="/resume-examples" className="hover:text-foreground">Examples</a></li>
               <li aria-hidden>/</li>
               <li aria-current="page" className="font-medium text-foreground">{example.role}</li>
             </ol>
@@ -80,7 +80,7 @@ export function ExampleArticle({ example }: { example: ResumeExample }) {
                 title={`${example.role} Resume`}
               />
               <a
-                href="/?examples=list"
+                href="/resume-examples"
                 className="inline-flex h-12 items-center justify-center rounded-xl border-2 border-foreground/15 px-6 font-semibold text-foreground transition-colors hover:bg-foreground/5"
               >
                 <ArrowLeft className="mr-1.5 size-4" />
@@ -223,7 +223,7 @@ export function ExampleArticle({ example }: { example: ResumeExample }) {
                 {related.map((rel) => (
                   <a
                     key={rel.slug}
-                    href={`/?examples=${rel.slug}`}
+                    href={`/resume-examples/${rel.slug}`}
                     className="group flex flex-col rounded-xl bg-card p-4 shadow-sm ring-1 ring-black/5 transition-all hover:-translate-y-0.5 hover:shadow-md"
                   >
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-forge">

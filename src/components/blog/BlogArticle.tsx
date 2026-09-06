@@ -103,7 +103,7 @@ function ContentBlockView({ block }: { block: ContentBlock }) {
 function RelatedCard({ post }: { post: BlogPost }) {
   return (
     <a
-      href={`/?blog=${post.slug}`}
+      href={`/blog/${post.slug}`}
       className="group flex h-full flex-col rounded-xl bg-card p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
     >
       <span className="inline-flex w-fit items-center rounded-full bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground">
@@ -141,7 +141,7 @@ function buildArticleJsonLd(post: BlogPost) {
     dateModified: post.updated || post.date,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `/?blog=${post.slug}`,
+      "@id": `/blog/${post.slug}`,
     },
   };
 }
@@ -161,13 +161,13 @@ function buildBreadcrumbJsonLd(post: BlogPost) {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: "/?blog=list",
+        item: "/blog",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: post.title,
-        item: `/?blog=${post.slug}`,
+        item: `/blog/${post.slug}`,
       },
     ],
   };
@@ -210,7 +210,7 @@ export function BlogArticle({ post }: { post: BlogPost }) {
             </li>
             <li aria-hidden="true">/</li>
             <li>
-              <a href="/?blog=list" className="hover:text-primary">
+              <a href="/blog" className="hover:text-primary">
                 Blog
               </a>
             </li>
@@ -225,7 +225,7 @@ export function BlogArticle({ post }: { post: BlogPost }) {
         <header className="px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-12">
           <div className="mx-auto max-w-3xl text-center">
             <a
-              href={`/?blog=list#category-${categorySlug}`}
+              href={`/blog#category-${categorySlug}`}
               className="inline-flex items-center rounded-full bg-forge/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-forge"
             >
               {post.category}
@@ -315,7 +315,7 @@ export function BlogArticle({ post }: { post: BlogPost }) {
         <section className="px-4 pb-24 sm:px-6">
           <div className="mx-auto max-w-3xl text-center">
             <a
-              href="/?blog=list"
+              href="/blog"
               className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-forge"
             >
               <span aria-hidden="true">&larr;</span> Back to blog

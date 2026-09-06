@@ -3,7 +3,7 @@ import type { ResumeData, ResumeSettings } from "@/lib/types";
 /**
  * Role-specific resume example pages.
  *
- * Each example powers a high-traffic SEO landing page at `/?example={slug}`
+ * Each example powers a high-traffic SEO landing page at `https://forgedcv.com/resume-examples/{slug}`
  * that renders a fully-built sample resume (via the ResumeDocument component)
  * alongside SEO copy about what to include in that role's resume.
  *

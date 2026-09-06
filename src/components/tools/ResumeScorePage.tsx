@@ -171,7 +171,7 @@ export function ResumeScorePage() {
 
               <p>
                 Want to see what a strong resume looks like? Browse our{" "}
-                <a href="/?examples=list">resume examples</a> — each one is a
+                <a href="/resume-examples">resume examples</a> — each one is a
                 fully-loaded sample you can load into the builder and edit.
               </p>
             </div>

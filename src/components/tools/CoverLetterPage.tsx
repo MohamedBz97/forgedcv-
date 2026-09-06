@@ -157,9 +157,9 @@ export function CoverLetterPage() {
               <p>
                 Looking for cover letter examples? Our blog has a full set —
                 start with{" "}
-                <a href="/?blog=cover-letter-examples">50+ cover letter examples</a>{" "}
+                <a href="/blog/cover-letter-examples">50+ cover letter examples</a>{" "}
                 and our guide to{" "}
-                <a href="/?blog=short-cover-letter">short cover letters</a>.
+                <a href="/blog/short-cover-letter">short cover letters</a>.
               </p>
             </div>
           </div>

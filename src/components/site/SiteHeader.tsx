@@ -14,11 +14,11 @@ interface NavLink {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: "Templates", view: "templates" },
-  { label: "Examples", href: "/?examples=list" },
-  { label: "Resume Score", href: "/?tool=resume-score" },
-  { label: "Cover Letter", href: "/?tool=cover-letter" },
-  { label: "Blog", href: "/?blog=list" },
+  { label: "Templates", view: "templates", href: "/templates" },
+  { label: "Examples", href: "/resume-examples" },
+  { label: "Resume Score", href: "/tools/resume-score-checker" },
+  { label: "Cover Letter", href: "/tools/cover-letter-builder" },
+  { label: "Blog", href: "/blog" },
 ];
 
 /**
