@@ -48,11 +48,11 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
                   onClick={() => setTemplate(t.id)}
                   className={`group relative overflow-hidden rounded-lg text-left transition-all ${
                     settings.templateId === t.id
-                      ? "ring-2 ring-primary"
-                      : "ring-1 ring-black/5 hover:ring-black/15"
+                      ? "ring-2 ring-forge"
+                      : "ring-1 ring-line hover:ring-line-strong"
                   }`}
                 >
-                  <div className="relative aspect-[1/1.414] overflow-hidden bg-foreground/[0.03]">
+                  <div className="relative aspect-[1/1.414] overflow-hidden bg-surface-2">
                     <div className="absolute left-0 top-0 origin-top-left" style={{ transform: "scale(0.16)", width: "625%" }}>
                       <ResumeDocument
                         data={defaultResumeData}
@@ -60,7 +60,7 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
                       />
                     </div>
                     {settings.templateId === t.id && (
-                      <div className="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      <div className="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-forge text-white">
                         <Check className="size-3" />
                       </div>
                     )}

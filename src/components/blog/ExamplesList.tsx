@@ -1,4 +1,4 @@
-import { BlogNav, BlogFooter, BlogShell } from "@/components/blog/BlogNav";
+import { BlogShell } from "@/components/blog/BlogNav";
 import type { ResumeExample } from "@/lib/blog/examples";
 import { EXAMPLE_CATEGORIES } from "@/lib/blog/examples";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
@@ -11,7 +11,6 @@ import { ArrowRight } from "lucide-react";
 export function ExamplesList({ examples }: { examples: ResumeExample[] }) {
   return (
     <BlogShell>
-      <BlogNav />
       <main className="flex-1">
         {/* Hero */}
         <section className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-20">
@@ -53,24 +52,28 @@ export function ExamplesList({ examples }: { examples: ResumeExample[] }) {
 
         {/* CTA */}
         <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
-          <div className="rounded-2xl bg-primary px-6 py-12 text-center text-primary-foreground sm:px-12">
-            <h2 className="display-heading text-2xl sm:text-3xl">
+          <div className="relative overflow-hidden rounded-2xl bg-charcoal-900 px-6 py-12 text-center text-charcoal-50 sm:px-12">
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 h-40 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-forge/25 blur-3xl"
+              aria-hidden="true"
+            />
+            <h2 className="display-heading relative text-2xl sm:text-3xl">
               Don&apos;t see your role?
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-primary-foreground/75">
-              Pick a template and build your own from scratch. Eight ATS-friendly
+            <p className="relative mx-auto mt-3 max-w-lg text-charcoal-300">
+              Pick a template and build your own from scratch. Twenty ATS-friendly
               designs, fully customizable.
             </p>
             <a
               href="/"
-              className="mt-6 inline-flex h-12 items-center justify-center rounded-xl bg-primary-foreground px-6 font-semibold text-primary transition-opacity hover:opacity-90"
+              className="relative mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-charcoal-50 px-7 text-base font-semibold text-charcoal-950 transition-colors hover:bg-white"
             >
-              Start building for free ✨
+              Start building for free
+              <ArrowRight className="size-4" />
             </a>
           </div>
         </section>
       </main>
-      <BlogFooter />
     </BlogShell>
   );
 }

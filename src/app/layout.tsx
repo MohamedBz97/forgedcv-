@@ -3,6 +3,9 @@ import { DM_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import { TEMPLATES } from "@/lib/templates";
+
+const templateCount = TEMPLATES.length;
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | forgedCV",
   },
   description:
-    "Build a professional, ATS-ready resume for free in minutes. 8 customizable templates, unlimited PDF downloads, no watermarks. Forge a resume that gets you hired.",
+    `Build a professional, ATS-ready resume for free in minutes. ${templateCount} customizable templates, unlimited PDF downloads, no watermarks. Forge a resume that gets you hired.`,
   keywords: [
     "free resume builder",
     "resume maker",

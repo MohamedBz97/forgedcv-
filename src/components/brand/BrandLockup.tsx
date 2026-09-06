@@ -19,7 +19,7 @@ export function BrandLockup({
   return (
     <span className={cn("flex items-center gap-2", className)}>
       <LogoMark className={logoSize} />
-      <span className={cn("flex items-baseline font-bold tracking-tight", textSize)}>
+      <span className={cn("flex items-baseline font-extrabold tracking-[-0.03em]", textSize)}>
         <span className={onDark ? "text-primary-foreground" : "text-foreground"}>forged</span>
         <span className="text-forge">CV</span>
       </span>

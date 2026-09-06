@@ -207,19 +207,23 @@ export function BlogList({ posts }: { posts: BlogPost[] }) {
 
         {/* CTA band */}
         <section className="px-4 py-16 sm:px-6">
-          <div className="mx-auto max-w-5xl rounded-2xl bg-primary px-6 py-14 text-center text-primary-foreground sm:px-12">
-            <h2 className="display-heading text-3xl sm:text-4xl">
+          <div className="relative mx-auto max-w-5xl overflow-hidden rounded-2xl bg-charcoal-900 px-6 py-14 text-center text-charcoal-50 sm:px-12">
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 h-48 w-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-forge/25 blur-3xl"
+              aria-hidden="true"
+            />
+            <h2 className="display-heading relative text-3xl sm:text-4xl">
               Forge your resume while you&apos;re here
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-primary-foreground/75">
+            <p className="relative mx-auto mt-4 max-w-xl text-charcoal-300">
               Turn what you just read into a resume you&apos;ll actually send.
               Free to start, no credit card, no fluff.
             </p>
             <a
               href="/"
-              className="mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-background px-7 text-sm font-semibold text-primary transition-transform hover:scale-[1.02]"
+              className="relative mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-charcoal-50 px-7 text-base font-semibold text-charcoal-950 transition-colors hover:bg-white"
             >
-              Start for free &nbsp;✨
+              Start for free
             </a>
           </div>
         </section>

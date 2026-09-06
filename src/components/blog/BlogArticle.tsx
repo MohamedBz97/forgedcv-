@@ -1,5 +1,6 @@
 import type { BlogPost, ContentBlock } from "@/lib/blog/posts";
 import { getRelatedPosts } from "@/lib/blog/posts";
+import { ArrowRight } from "lucide-react";
 import { BlogFooter, BlogNav } from "./BlogNav";
 
 /**
@@ -263,19 +264,24 @@ export function BlogArticle({ post }: { post: BlogPost }) {
 
         {/* Article CTA */}
         <section className="px-4 pb-20 sm:px-6">
-          <div className="mx-auto max-w-3xl rounded-2xl bg-primary px-6 py-12 text-center text-primary-foreground sm:px-12">
-            <h2 className="display-heading text-2xl sm:text-3xl">
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl bg-charcoal-900 px-6 py-12 text-center text-charcoal-50 sm:px-12">
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 h-40 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-forge/25 blur-3xl"
+              aria-hidden="true"
+            />
+            <h2 className="display-heading relative text-2xl sm:text-3xl">
               Ready to put this into practice?
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-primary-foreground/75">
+            <p className="relative mx-auto mt-3 max-w-lg text-charcoal-300">
               Build a resume that follows every rule in this article &mdash;
               in about 15 minutes.
             </p>
             <a
               href="/"
-              className="mt-7 inline-flex h-12 items-center justify-center rounded-xl bg-background px-7 text-sm font-semibold text-primary transition-transform hover:scale-[1.02]"
+              className="relative mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-charcoal-50 px-7 text-base font-semibold text-charcoal-950 transition-colors hover:bg-white"
             >
-              Forge my resume &nbsp;✨
+              Forge my resume
+              <ArrowRight className="size-4" />
             </a>
           </div>
         </section>

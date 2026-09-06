@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Search, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Search } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +8,10 @@ import { useResumeStore } from "@/lib/resume-store";
 import { TEMPLATES } from "@/lib/templates";
 import { defaultResumeData, defaultSettings } from "@/lib/default-data";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
-import { BrandLockup } from "@/components/brand/BrandLockup";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { Stagger, StaggerItem } from "@/components/ui/motion";
+import { cn } from "@/lib/utils";
 
 const TAGS = ["All", "Simple", "Sidebar", "ATS-friendly", "Modern", "Creative", "Minimal"];
 
@@ -43,97 +45,93 @@ export function TemplateGallery() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      {/* Nav */}
-      <header className="sticky top-0 z-40 w-full border-b border-black/5 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <button
-            onClick={() => setView("landing")}
-            aria-label="forgedCV home"
-          >
-            <BrandLockup />
-          </button>
-          <nav className="hidden items-center gap-7 text-sm font-medium text-foreground/70 md:flex">
-            <button onClick={() => setView("landing")} className="transition-colors hover:text-foreground">
-              Resume Builder
-            </button>
-            <span className="font-semibold text-foreground">Templates</span>
-            <a href="/?examples=list" className="transition-colors hover:text-foreground">
-              Examples
-            </a>
-            <a href="/?blog=list" className="transition-colors hover:text-foreground">
-              Blog
-            </a>
-          </nav>
-          <Button
-            size="sm"
-            className="h-10 rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground hover:opacity-90"
-            onClick={() => setView("landing")}
-          >
-            Start now
-          </Button>
-        </div>
-      </header>
+      <SiteHeader
+        active="Templates"
+        onNavigate={(v) => setView(v)}
+        onStart={() => setView("templates")}
+      />
 
       <main className="flex-1">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="section-shell py-16 lg:py-24">
           {/* Heading */}
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Free resume templates</p>
-            <h1 className="display-heading mt-3 text-4xl text-foreground sm:text-5xl">
-              100+ ways to present yourself
-            </h1>
-            <p className="mt-4 text-foreground/65">
-              Eight hand-crafted, ATS-friendly resume templates — from clean and
-              minimal to bold and creative. Pick one and start editing. Switch
-              anytime without losing your content.
-            </p>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="eyebrow">Resume templates</p>
+              <h1 className="display-heading mt-4 max-w-2xl text-4xl text-ink sm:text-5xl">
+                Find the layout that says{" "}
+                <span className="accent-underline text-forge-700">you&apos;re the one</span>
+              </h1>
+              <p className="mt-4 max-w-xl text-lg text-ink-2">
+                Twenty hand-tuned, ATS-friendly designs. Pick one and start
+                editing — switch anytime without losing a single word.
+              </p>
+            </div>
+            <div className="flex items-center gap-6 border-t border-line pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <div>
+                <p className="font-mono text-2xl font-semibold text-ink">{TEMPLATES.length}</p>
+                <p className="text-xs text-steel">templates</p>
+              </div>
+              <div>
+                <p className="font-mono text-2xl font-semibold text-ink">100%</p>
+                <p className="text-xs text-steel">free, every one</p>
+              </div>
+              <div>
+                <p className="font-mono text-2xl font-semibold text-ink">0</p>
+                <p className="text-xs text-steel">watermarks</p>
+              </div>
+            </div>
           </div>
 
-          {/* Filters */}
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <div className="relative w-full max-w-md">
-              <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-foreground/40" />
-              <Input
-                placeholder="Search templates..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="h-11 rounded-xl border-black/10 bg-card pl-10"
-              />
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-2">
+          {/* Filter bar */}
+          <div className="mt-12 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-wrap items-center gap-2">
               {TAGS.map((tag) => (
                 <button
                   key={tag}
                   onClick={() => setFilter(tag)}
-                  className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
+                  className={cn(
+                    "rounded-full px-4 py-1.5 text-[13px] font-medium transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)]",
                     filter === tag
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-card text-foreground/60 ring-1 ring-black/5 hover:text-foreground"
-                  }`}
+                      ? "bg-charcoal-900 text-paper shadow-sm"
+                      : "border border-line bg-surface text-steel hover:border-line-strong hover:text-ink"
+                  )}
                 >
                   {tag}
                 </button>
               ))}
             </div>
+            <div className="relative w-full max-w-xs">
+              <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-steel" />
+              <Input
+                placeholder="Search templates…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="h-10 rounded-lg border-line bg-surface pl-10 text-sm shadow-xs focus-visible:ring-forge/30"
+              />
+            </div>
           </div>
 
           {/* Grid */}
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filtered.map((t, i) => {
+          <Stagger
+            className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            stagger={0.03}
+          >
+            {filtered.map((t) => {
               const selected = currentTemplateId === t.id;
               return (
-                <motion.div
-                  key={t.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: i * 0.04 }}
-                  className="group text-left"
-                >
+                <StaggerItem key={t.id}>
                   <button
                     onClick={() => handleSelect(t.id)}
-                    className="block w-full text-left"
+                    className="group block w-full text-left"
                   >
-                    <div className="relative aspect-[1/1.414] overflow-hidden rounded-lg bg-card shadow-[0_4px_20px_-8px_rgba(32,14,50,0.18)] ring-1 ring-black/5 transition-all group-hover:-translate-y-1 group-hover:shadow-[0_14px_34px_-10px_rgba(32,14,50,0.28)]">
+                    <div
+                      className={cn(
+                        "relative aspect-[1/1.414] overflow-hidden rounded-lg bg-white shadow-[var(--shadow-card)] transition-all duration-[var(--dur-long)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]",
+                        selected
+                          ? "ring-2 ring-forge/60"
+                          : "ring-1 ring-line hover:ring-forge/40"
+                      )}
+                    >
                       <div
                         className="absolute left-0 top-0 origin-top-left transition-transform duration-300 group-hover:scale-[1.03]"
                         style={{ transform: "scale(0.32)", width: "312.5%" }}
@@ -144,41 +142,40 @@ export function TemplateGallery() {
                         />
                       </div>
                       {selected && (
-                        <div className="absolute right-2 top-2 flex size-6 items-center justify-center rounded-full bg-emerald2 text-white shadow">
-                          <Check className="size-3.5" />
-                        </div>
+                        <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-charcoal-900/90 px-2.5 py-1 text-[11px] font-semibold text-paper backdrop-blur">
+                          <Check className="size-3" strokeWidth={3} />
+                          In use
+                        </span>
                       )}
+                      <div className="absolute inset-x-0 bottom-0 flex translate-y-2 items-center justify-between bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition-all duration-[var(--dur-short)] ease-[var(--ease-out)] group-hover:translate-y-0 group-hover:opacity-100">
+                        <span className="text-xs font-semibold text-white">{t.name}</span>
+                        <ArrowUpRight className="size-4 text-white" />
+                      </div>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between px-0.5">
+                      <div>
+                        <p className="text-sm font-semibold text-ink">{t.name}</p>
+                        <p className="mt-0.5 line-clamp-1 text-xs text-steel">
+                          {t.description}
+                        </p>
+                      </div>
+                      <span
+                        className="size-3.5 shrink-0 rounded-full ring-2 ring-white shadow-sm"
+                        style={{ backgroundColor: t.accent }}
+                        title="Default accent color"
+                      />
                     </div>
                   </button>
-                  <div className="mt-3 flex items-center justify-between px-0.5">
-                    <div>
-                      <p className="text-sm font-bold text-foreground">{t.name}</p>
-                      <p className="mt-0.5 line-clamp-1 text-xs text-foreground/55">
-                        {t.description}
-                      </p>
-                    </div>
-                    <div
-                      className="size-4 shrink-0 rounded-full ring-1 ring-black/10"
-                      style={{ backgroundColor: t.accent }}
-                      title="Default accent"
-                    />
-                  </div>
-                  <button
-                    onClick={() => handleSelect(t.id)}
-                    className="mt-1.5 px-0.5 text-xs font-medium text-foreground/70 underline-offset-2 transition-colors hover:text-primary hover:underline"
-                  >
-                    See template →
-                  </button>
-                </motion.div>
+                </StaggerItem>
               );
             })}
-          </div>
+          </Stagger>
 
           {filtered.length === 0 && (
-            <div className="mt-16 text-center text-foreground/55">
-              <p>No templates match your search.</p>
+            <div className="mt-16 flex flex-col items-center gap-4 text-center">
+              <p className="text-steel">No templates match that search.</p>
               <Button
-                variant="link"
+                variant="ghost"
                 onClick={() => {
                   setQuery("");
                   setFilter("All");
@@ -188,25 +185,20 @@ export function TemplateGallery() {
               </Button>
             </div>
           )}
+
+          <div className="mt-12 flex items-center justify-between border-t border-line pt-8">
+            <p className="text-sm text-steel">
+              Can&apos;t decide? Start with <span className="font-semibold text-ink">Modern</span> — the safest choice for most roles.
+            </p>
+            <Button size="lg" onClick={() => setView("editor")}>
+              Open the builder
+              <ArrowRight className="size-4" />
+            </Button>
+          </div>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-primary text-primary-foreground">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
-          <BrandLockup size="sm" onDark />
-          <p className="text-xs text-primary-foreground/60">
-            © {new Date().getFullYear()} forgedCV. No watermarks. No hidden fees.
-          </p>
-          <button
-            onClick={() => setView("landing")}
-            className="flex items-center gap-1 text-xs text-primary-foreground/80 hover:text-primary-foreground"
-          >
-            <ArrowLeft className="size-3.5" />
-            Back home
-          </button>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

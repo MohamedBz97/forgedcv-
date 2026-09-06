@@ -30,10 +30,10 @@ export function LoadExampleButton({
   return (
     <Button
       size="lg"
-      className="h-12 rounded-xl bg-forge px-7 text-base font-semibold text-white hover:bg-forge-dark"
+      className="h-12 rounded-xl px-7 text-base font-semibold"
       onClick={handleLoad}
     >
-      Use this example ✨
+      Use this example
     </Button>
   );
 }

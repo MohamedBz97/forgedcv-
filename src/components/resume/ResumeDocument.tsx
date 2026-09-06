@@ -23,6 +23,18 @@ import { TwoColLightTemplate } from "./templates/TwoColLightTemplate";
 import { BannerPhotoTemplate } from "./templates/BannerPhotoTemplate";
 import { TimelineTemplate } from "./templates/TimelineTemplate";
 import { GridSkillsTemplate } from "./templates/GridSkillsTemplate";
+import { AuroraTemplate } from "./templates/AuroraTemplate";
+import { RegentTemplate } from "./templates/RegentTemplate";
+import { NordicTemplate } from "./templates/NordicTemplate";
+import { MeridianTemplate } from "./templates/MeridianTemplate";
+import { SignalTemplate } from "./templates/SignalTemplate";
+import { FederalTemplate } from "./templates/FederalTemplate";
+import { ConciergeTemplate } from "./templates/ConciergeTemplate";
+import { ArchitectTemplate } from "./templates/ArchitectTemplate";
+import { IvoryTemplate } from "./templates/IvoryTemplate";
+import { PreciseTemplate } from "./templates/PreciseTemplate";
+import { AtelierTemplate } from "./templates/AtelierTemplate";
+import { TidesTemplate } from "./templates/TidesTemplate";
 
 interface ResumeDocumentProps {
   data: ResumeData;
@@ -79,6 +91,30 @@ function renderTemplate(id: TemplateId, data: ResumeData, settings: ResumeSettin
       return <TimelineTemplate data={data} settings={settings} />;
     case "grid-skills":
       return <GridSkillsTemplate data={data} settings={settings} />;
+    case "aurora":
+      return <AuroraTemplate data={data} settings={settings} />;
+    case "regent":
+      return <RegentTemplate data={data} settings={settings} />;
+    case "nordic":
+      return <NordicTemplate data={data} settings={settings} />;
+    case "meridian":
+      return <MeridianTemplate data={data} settings={settings} />;
+    case "signal":
+      return <SignalTemplate data={data} settings={settings} />;
+    case "federal":
+      return <FederalTemplate data={data} settings={settings} />;
+    case "concierge":
+      return <ConciergeTemplate data={data} settings={settings} />;
+    case "architect":
+      return <ArchitectTemplate data={data} settings={settings} />;
+    case "ivory":
+      return <IvoryTemplate data={data} settings={settings} />;
+    case "precise":
+      return <PreciseTemplate data={data} settings={settings} />;
+    case "atelier":
+      return <AtelierTemplate data={data} settings={settings} />;
+    case "tides":
+      return <TidesTemplate data={data} settings={settings} />;
     default:
       return <ModernTemplate data={data} settings={settings} />;
   }

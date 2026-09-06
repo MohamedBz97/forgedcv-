@@ -1,4 +1,4 @@
-import { BlogNav, BlogFooter, BlogShell } from "@/components/blog/BlogNav";
+import { BlogShell } from "@/components/blog/BlogNav";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { LoadExampleButton } from "@/components/blog/LoadExampleButton";
 import { getExampleBySlug, getRelatedExamples, type ResumeExample } from "@/lib/blog/examples";
@@ -49,7 +49,6 @@ export function ExampleArticle({ example }: { example: ResumeExample }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
-      <BlogNav />
       <main className="flex-1">
         <article className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
           {/* Breadcrumbs */}
@@ -242,7 +241,6 @@ export function ExampleArticle({ example }: { example: ResumeExample }) {
           )}
         </article>
       </main>
-      <BlogFooter />
     </BlogShell>
   );
 }

@@ -14,7 +14,7 @@ export function Wordmark({
   const sizeClass =
     size === "lg" ? "text-2xl" : size === "sm" ? "text-base" : "text-xl";
   return (
-    <span className={cn("flex items-baseline font-bold tracking-tight", sizeClass, className)}>
+    <span className={cn("flex items-baseline font-extrabold tracking-[-0.03em]", sizeClass, className)}>
       <span className="text-foreground">forged</span>
       <span className="text-forge">CV</span>
     </span>

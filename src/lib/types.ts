@@ -108,7 +108,19 @@ export type TemplateId =
   | "two-col-light"
   | "banner-photo"
   | "timeline"
-  | "grid-skills";
+  | "grid-skills"
+  | "aurora"
+  | "regent"
+  | "nordic"
+  | "meridian"
+  | "signal"
+  | "federal"
+  | "concierge"
+  | "architect"
+  | "ivory"
+  | "precise"
+  | "atelier"
+  | "tides";
 
 export interface TemplateMeta {
   id: TemplateId;

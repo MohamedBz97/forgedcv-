@@ -12,6 +12,8 @@ import {
   Eye,
   PencilLine,
   Loader2,
+  Coffee,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +23,7 @@ import { EditorForm } from "@/components/resume/editor/EditorForm";
 import { PreviewPanel } from "@/components/resume/PreviewPanel";
 import { SettingsPanel } from "@/components/resume/SettingsPanel";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
+import { DONATE } from "@/lib/site-config";
 
 export function ResumeEditor() {
   const setView = useResumeStore((s) => s.setView);
@@ -33,8 +36,16 @@ export function ResumeEditor() {
   const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
+  const [showCoffee, setShowCoffee] = useState(false);
+  const [coffeeDismissed, setCoffeeDismissed] = useState(
+    () => typeof window !== "undefined" && window.localStorage.getItem(DONATE.storageKey) === "1"
+  );
 
-  // auto-switch to preview tab is not needed; keep edit default
+  const handleDownload = () => {
+    toast.info("Opening print dialog — choose “Save as PDF”.");
+    if (!coffeeDismissed) setShowCoffee(true);
+    setTimeout(() => window.print(), 300);
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -60,11 +71,6 @@ export function ResumeEditor() {
     } finally {
       setSaving(false);
     }
-  };
-
-  const handleDownload = () => {
-    toast.info("Opening print dialog — choose “Save as PDF”.");
-    setTimeout(() => window.print(), 300);
   };
 
   // keyboard shortcut: cmd/ctrl + P triggers our download flow
@@ -96,11 +102,11 @@ export function ResumeEditor() {
           <div className="flex items-center gap-1.5">
             <span className="text-lg font-bold tracking-tight text-foreground">forged<span className="text-forge">CV</span></span>
           </div>
-          <div className="mx-1 hidden h-6 w-px bg-black/10 sm:block" />
+          <div className="mx-1 hidden h-6 w-px bg-line sm:block" />
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="h-8 w-32 border-transparent bg-transparent px-2 text-sm font-medium hover:bg-foreground/5 focus-visible:bg-background focus-visible:ring-1 sm:w-48"
+            className="h-8 w-32 border-transparent bg-transparent px-2 text-sm font-medium hover:bg-surface-2 focus-visible:bg-background focus-visible:ring-1 sm:w-48"
             placeholder="Untitled Resume"
           />
         </div>
@@ -109,7 +115,7 @@ export function ResumeEditor() {
           <Button
             variant="outline"
             size="sm"
-            className="hidden h-9 rounded-lg border-black/15 bg-transparent text-foreground hover:bg-foreground/5 sm:inline-flex"
+            className="hidden h-9 sm:inline-flex"
             onClick={() => setView("templates")}
           >
             <LayoutTemplate className="size-4" />
@@ -118,7 +124,7 @@ export function ResumeEditor() {
           <Button
             variant="outline"
             size="sm"
-            className="h-9 rounded-lg border-black/15 bg-transparent text-foreground hover:bg-foreground/5"
+            className="h-9"
             onClick={() => setSettingsOpen(true)}
           >
             <Settings2 className="size-4" />
@@ -127,7 +133,7 @@ export function ResumeEditor() {
           <Button
             variant="outline"
             size="sm"
-            className="h-9 rounded-lg border-black/15 bg-transparent text-foreground hover:bg-foreground/5"
+            className="h-9"
             onClick={handleSave}
             disabled={saving}
           >
@@ -135,8 +141,17 @@ export function ResumeEditor() {
             <span className="hidden sm:inline">Save</span>
           </Button>
           <Button
+            variant="ghost"
             size="sm"
-            className="h-9 rounded-lg bg-primary font-semibold text-primary-foreground hover:opacity-90"
+            className="hidden h-9 border border-solid border-[#40A67B]/40 text-[#B45309] hover:bg-[#40A67B]/10 md:inline-flex"
+            onClick={() => window.open(DONATE.url, "_blank", "noopener,noreferrer")}
+          >
+            <Coffee className="size-4 text-[#B45309]" />
+            <span className="hidden xl:inline">Buy me a coffee</span>
+          </Button>
+          <Button
+            size="sm"
+            className="h-9 font-semibold"
             onClick={handleDownload}
           >
             <Download className="size-4" />
@@ -144,6 +159,34 @@ export function ResumeEditor() {
           </Button>
         </div>
       </header>
+
+      {/* Post-download thank-you */}
+      {showCoffee && (
+        <div className="flex items-center gap-3 border-b bg-[#FDF6EC] px-4 py-2.5 text-sm">
+          <span className="min-w-0 flex-1 text-[#57534E]">
+            It&apos;s yours — free, no watermark. If forgedCV helped, a {DONATE.amount} coffee keeps it that way.
+          </span>
+          <a
+            href={DONATE.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 rounded-full bg-[#B45309] px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[#92400E]"
+          >
+            {DONATE.label} {DONATE.amount}
+          </a>
+          <button
+            onClick={() => {
+              setShowCoffee(false);
+              setCoffeeDismissed(true);
+              localStorage.setItem(DONATE.storageKey, "1");
+            }}
+            aria-label="Dismiss"
+            className="shrink-0 rounded-full p-1 text-[#A8A29E] transition-colors hover:bg-black/5 hover:text-[#57534E]"
+          >
+            <X className="size-4" />
+          </button>
+        </div>
+      )}
 
       {/* Mobile tab switch */}
       <div className="border-b bg-background px-3 py-2 lg:hidden">
@@ -165,7 +208,7 @@ export function ResumeEditor() {
       <div className="flex min-h-0 flex-1">
         {/* Editor pane */}
         <div
-          className={`min-h-0 flex-1 overflow-hidden bg-foreground/[0.02] ${
+          className={`min-h-0 flex-1 overflow-hidden bg-surface-2/40 ${
             mobileTab === "preview" ? "hidden lg:block" : "block"
           }`}
         >
@@ -178,7 +221,7 @@ export function ResumeEditor() {
 
         {/* Preview pane */}
         <div
-          className={`min-h-0 w-full shrink-0 border-l border-black/5 bg-foreground/[0.03] lg:block lg:w-[46%] xl:w-[48%] ${
+          className={`min-h-0 w-full shrink-0 border-l border-line bg-surface-2/50 lg:block lg:w-[46%] xl:w-[48%] ${
             mobileTab === "edit" ? "hidden lg:block" : "block"
           }`}
         >

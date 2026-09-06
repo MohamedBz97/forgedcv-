@@ -31,6 +31,7 @@ import {
   User,
   FileText,
 } from "lucide-react";
+import { TEMPLATES } from "@/lib/templates";
 
 /* -------------------------------------------------------------------------- */
 /*  Build mode — letter assembly                                              */
@@ -912,7 +913,7 @@ function CheckMode() {
               <div>
                 <h3 className="text-base font-bold">Pair this letter with a strong resume</h3>
                 <p className="text-sm text-primary-foreground/75">
-                  Build a resume in the forgedCV builder — 20 templates, free PDF, no watermarks.
+                  Build a resume in the forgedCV builder — {TEMPLATES.length} templates, free PDF, no watermarks.
                 </p>
               </div>
               <a
