@@ -20,5 +20,5 @@ npm run lint
 npm run typecheck
 npm test
 npm run build
-npm audit --audit-level=moderate
+npm audit --omit=dev --audit-level=moderate
 ```
