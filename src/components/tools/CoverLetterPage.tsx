@@ -1,6 +1,5 @@
 import { BlogShell } from "@/components/blog/BlogNav";
 import { CoverLetterTool } from "./CoverLetterTool";
-import { TEMPLATES } from "@/lib/templates";
 
 /**
  * SEO wrapper page for the free Cover Letter Builder + Checker tool.
@@ -173,8 +172,8 @@ export function CoverLetterPage() {
             Pair that letter with a resume that matches
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-primary-foreground/75">
-            A great cover letter deserves a great resume. Build one in the
-            forgedCV builder — {TEMPLATES.length} templates, live preview, free PDF download.
+            A great cover letter deserves a clear, tailored resume. Build and
+            preview one in the forgedCV editor, then download a clean PDF.
           </p>
           <a
             href="/"

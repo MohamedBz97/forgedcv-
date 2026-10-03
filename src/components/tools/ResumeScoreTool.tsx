@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import * as pdfjsLib from "pdfjs-dist";
+import * as mammoth from "mammoth/mammoth.browser";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -672,6 +674,48 @@ function PriorityIcon({ priority }: { priority: Recommendation["priority"] }) {
 /*  Main component                                                            */
 /* -------------------------------------------------------------------------- */
 
+const MAX_RESUME_UPLOAD_BYTES = 10 * 1024 * 1024;
+const MAX_RESUME_PDF_PAGES = 20;
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url,
+).toString();
+
+async function extractUploadedResumeText(file: File): Promise<string> {
+  if (file.size === 0 || file.size > MAX_RESUME_UPLOAD_BYTES) {
+    throw new Error("Choose a non-empty resume file smaller than 10 MB.");
+  }
+
+  const filename = file.name.toLowerCase();
+  const mime = file.type.toLowerCase();
+  if (mime.includes("text") || filename.endsWith(".txt")) return file.text();
+
+  if (mime === "application/pdf" || filename.endsWith(".pdf")) {
+    const loadingTask = pdfjsLib.getDocument({ data: await file.arrayBuffer() });
+    const pdf = await loadingTask.promise;
+    if (pdf.numPages > MAX_RESUME_PDF_PAGES) {
+      await loadingTask.destroy();
+      throw new Error("PDF has too many pages to analyze.");
+    }
+
+    const pages: string[] = [];
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+      const page = await pdf.getPage(pageNumber);
+      const content = await page.getTextContent();
+      pages.push(content.items.map((item) => ("str" in item ? item.str : "")).join(" "));
+    }
+    return pages.join("\n").trim();
+  }
+
+  if (filename.endsWith(".docx") || mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+    const result = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+    return result.value.trim();
+  }
+
+  throw new Error("Unsupported format. Upload PDF, DOCX, or TXT.");
+}
+
 const SAMPLE = `Jordan Rivera
 Senior Software Engineer
 jordan.rivera@email.com | (555) 123-4567 | San Francisco, CA
@@ -702,6 +746,7 @@ export function ResumeScoreTool() {
   const [text, setText] = React.useState("");
   const [analysis, setAnalysis] = React.useState<ResumeAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+  const [fileError, setFileError] = React.useState("");
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const debounceRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -737,20 +782,19 @@ export function ResumeScoreTool() {
     run(SAMPLE);
   };
 
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    e.target.value = "";
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const content = String(reader.result || "");
+    setFileError("");
+    try {
+      const content = await extractUploadedResumeText(file);
+      if (!content.trim()) throw new Error("No readable text was found in this file.");
       setText(content);
       run(content);
-    };
-    reader.onerror = () => {
-      // Silently ignore — file reading failures are rare for .txt.
-    };
-    reader.readAsText(file);
-    e.target.value = "";
+    } catch {
+      setFileError("We couldn't extract readable text. Try a text-based PDF, DOCX, or TXT file.");
+    }
   };
 
   return (
@@ -761,14 +805,14 @@ export function ResumeScoreTool() {
           <div>
             <h2 className="text-lg font-bold text-foreground">Your resume</h2>
             <p className="text-sm text-muted-foreground">
-              Paste text or upload a .txt file. Everything stays in your browser.
+              Paste text or upload a PDF, Word DOCX, or TXT file. Everything stays in your browser.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <input
               ref={fileInputRef}
               type="file"
-              accept=".txt,text/plain"
+              accept=".txt,.pdf,.docx,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               className="sr-only"
               onChange={handleFile}
             />
@@ -779,7 +823,7 @@ export function ResumeScoreTool() {
               onClick={() => fileInputRef.current?.click()}
             >
               <Upload className="size-4" />
-              Upload .txt
+              Upload resume
             </Button>
             <Button type="button" variant="outline" size="sm" onClick={handleSample}>
               <FileText className="size-4" />
@@ -789,6 +833,7 @@ export function ResumeScoreTool() {
         </div>
 
         <div className="mt-4">
+          {fileError && <p role="alert" className="mb-2 text-sm text-destructive">{fileError}</p>}
           <label htmlFor="resume-text" className="sr-only">
             Paste your resume text here
           </label>

@@ -62,15 +62,11 @@ export function TemplateGallery() {
                 <span className="accent-underline text-forge-700">you&apos;re the one</span>
               </h1>
               <p className="mt-4 max-w-xl text-lg text-ink-2">
-                {TEMPLATES.length} hand-tuned, ATS-friendly designs. Pick one and start
-                editing — switch anytime without losing a single word.
+                ATS-friendly layouts. Pick one and start editing — switch anytime
+                without losing a single word.
               </p>
             </div>
             <div className="flex items-center gap-6 border-t border-line pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-              <div>
-                <p className="font-mono text-2xl font-semibold text-ink">{TEMPLATES.length}</p>
-                <p className="text-xs text-steel">templates</p>
-              </div>
               <div>
                 <p className="font-mono text-2xl font-semibold text-ink">100%</p>
                 <p className="text-xs text-steel">free, every one</p>

@@ -9,12 +9,12 @@ export const metadata: Metadata = {
     template: "%s | forgedCV",
   },
   description:
-    "Create a professional resume in minutes with forgedCV's free resume builder. 32 ATS-friendly templates, instant PDF downloads, zero watermarks, no signup.",
+    "Create a readable resume in minutes with forgedCV's free resume builder. Customizable layouts, instant PDF downloads, zero watermarks, no signup.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "forgedCV — Free Online Resume Builder | CV Maker",
     description:
-      "Create a professional resume in minutes — 32 ATS-friendly templates, instant PDF downloads, zero watermarks, no signup.",
+      "Create a readable resume in minutes — customizable layouts, instant PDF downloads, zero watermarks, no signup.",
     type: "website",
     url: "/",
   },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "forgedCV — Free Online Resume Builder",
     description:
-      "Create a professional resume in minutes — 32 ATS-friendly templates, instant PDF downloads, zero watermarks, no signup.",
+      "Create a readable resume in minutes — customizable layouts, instant PDF downloads, zero watermarks, no signup.",
   },
 };
 

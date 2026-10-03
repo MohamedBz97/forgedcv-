@@ -61,8 +61,8 @@ export function ExamplesList({ examples }: { examples: ResumeExample[] }) {
               Don&apos;t see your role?
             </h2>
             <p className="relative mx-auto mt-3 max-w-lg text-charcoal-300">
-              Pick a template and build your own from scratch. Twenty ATS-friendly
-              designs, fully customizable.
+              Pick a template and build your own from scratch with customizable
+              layouts and live preview.
             </p>
             <a
               href="/"

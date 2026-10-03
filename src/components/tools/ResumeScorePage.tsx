@@ -1,6 +1,5 @@
 import { BlogShell } from "@/components/blog/BlogNav";
 import { ResumeScoreTool } from "./ResumeScoreTool";
-import { TEMPLATES } from "@/lib/templates";
 
 /**
  * SEO wrapper page for the free Resume Score Checker.
@@ -186,9 +185,8 @@ export function ResumeScorePage() {
             Ready to build a better resume?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-primary-foreground/75">
-            Take the feedback from this tool and turn it into a polished,
-            recruiter-ready resume. {TEMPLATES.length} templates, live preview, free PDF
-            download — no watermarks.
+            Use the feedback to improve your resume in the editor, preview it,
+            and download a clean PDF without a watermark.
           </p>
           <a
             href="/"

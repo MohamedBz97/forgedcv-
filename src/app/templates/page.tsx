@@ -5,14 +5,14 @@ import { resumeForTemplate } from "@/lib/template-preview";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 
 export const metadata: Metadata = {
-  title: "Free Resume Templates — 32 ATS-Friendly Designs | forgedCV",
+  title: "Free Resume Templates — ATS-Friendly Designs | forgedCV",
   description:
-    "Browse all 32 free resume templates from forgedCV. Every design is ATS-friendly, mobile-ready, and downloads to PDF with zero watermarks. Pick one and start editing in seconds.",
+    "Browse free resume templates from forgedCV. Each design is made for readability and downloads to PDF with zero watermarks. Pick one and start editing in seconds.",
   alternates: { canonical: "/templates" },
   openGraph: {
-    title: "Free Resume Templates — 32 ATS-Friendly Designs | forgedCV",
+    title: "Free Resume Templates — ATS-Friendly Designs | forgedCV",
     description:
-      "Browse all 32 free resume templates. ATS-friendly, mobile-ready, PDF downloads with zero watermarks. No signup.",
+      "Browse free resume templates. Readable layouts, PDF downloads with zero watermarks. No signup.",
     type: "website",
   },
 };
@@ -29,9 +29,9 @@ export default function TemplatesIndexPage() {
               <span className="accent-underline text-forge-700">every one ATS-friendly</span>
             </h1>
             <p className="mt-4 text-lg text-ink-2">
-              {TEMPLATES.length} hand-tuned designs. Pick one, edit it in
-              seconds, and download a clean PDF — no watermark, no signup, no
-              paywall. Switch templates anytime without losing a single word.
+              Choose a design, edit it in seconds, and download a clean PDF — no
+              watermark, no signup, no paywall. Switch templates anytime without
+              losing a single word.
             </p>
           </div>
 

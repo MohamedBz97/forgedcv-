@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   ArrowLeft,
   FileText,
+  FileDown,
+  FileUp,
+  HardDrive,
+  Linkedin,
+  MoreHorizontal,
   Settings2,
   Download,
-  Save,
   LayoutTemplate,
   Eye,
   PencilLine,
-  Loader2,
   Coffee,
+  Trash2,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,6 +28,19 @@ import { PreviewPanel } from "@/components/resume/PreviewPanel";
 import { SettingsPanel } from "@/components/resume/SettingsPanel";
 import { ResumeDocument } from "@/components/resume/ResumeDocument";
 import { DONATE } from "@/lib/site-config";
+import { importLinkedInProfile } from "@/lib/linkedin-import";
+import {
+  createResumeBackup,
+  isResumeBackupFileSizeAllowed,
+  parseResumeBackup,
+} from "@/lib/resume-backup";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function ResumeEditor() {
   const setView = useResumeStore((s) => s.setView);
@@ -34,9 +51,10 @@ export function ResumeEditor() {
 
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
-  const [saving, setSaving] = useState(false);
-  const [savedId, setSavedId] = useState<string | null>(null);
   const [showCoffee, setShowCoffee] = useState(false);
+  const [importingLinkedIn, setImportingLinkedIn] = useState(false);
+  const linkedinFileRef = useRef<HTMLInputElement>(null);
+  const backupFileRef = useRef<HTMLInputElement>(null);
   const [coffeeDismissed, setCoffeeDismissed] = useState(
     () => typeof window !== "undefined" && window.localStorage.getItem(DONATE.storageKey) === "1"
   );
@@ -47,30 +65,64 @@ export function ResumeEditor() {
     setTimeout(() => window.print(), 300);
   };
 
-  const handleSave = async () => {
-    setSaving(true);
+  const handleExportBackup = () => {
     try {
-      const payload = { title, data, settings };
-      const res = savedId
-        ? await fetch(`/api/resumes/${savedId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          })
-        : await fetch("/api/resumes", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-      if (!res.ok) throw new Error("Save failed");
-      const json = await res.json();
-      if (json.resume?.id) setSavedId(json.resume.id);
-      toast.success(savedId ? "Resume updated" : "Resume saved");
-    } catch (e) {
-      toast.error("Could not save. Your work is still auto-saved locally.");
-    } finally {
-      setSaving(false);
+      const backup = createResumeBackup(title, data, settings);
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${(title || "resume").replace(/[^a-z0-9-_]+/gi, "-").toLowerCase()}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      toast.success("Resume backup downloaded.");
+    } catch {
+      toast.error("Could not create a resume backup.");
     }
+  };
+
+  const handleImportBackup = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    if (!window.confirm("Restore this backup and replace the resume currently open in the editor?")) return;
+    if (!isResumeBackupFileSizeAllowed(file.size)) {
+      toast.error("Choose a valid backup file smaller than 8 MB.");
+      return;
+    }
+
+    try {
+      const backup = parseResumeBackup(JSON.parse(await file.text()));
+      useResumeStore.getState().loadDocument(backup.data, backup.settings, backup.title);
+      toast.success("Resume backup restored.");
+    } catch {
+      toast.error("This file is not a valid forgedCV resume backup.");
+    }
+  };
+
+  const handleLinkedInImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    setImportingLinkedIn(true);
+    try {
+      const imported = await importLinkedInProfile(file);
+      const importedFields = Object.fromEntries(Object.entries(imported).filter(([, value]) => Boolean(value)));
+      if (!Object.keys(importedFields).length) throw new Error("No profile fields found");
+      useResumeStore.getState().updatePersonal(importedFields);
+      toast.success("Profile details imported. Review them before downloading.");
+    } catch {
+      toast.error("Could not read that LinkedIn PDF. Download your profile as PDF and try again.");
+    } finally {
+      setImportingLinkedIn(false);
+    }
+  };
+
+  const handleClearLocalResume = () => {
+    if (!window.confirm("Clear this resume from this browser? Download a backup first if you want to keep it.")) return;
+    useResumeStore.getState().startBlank();
+    toast.success("Local resume cleared.");
   };
 
   // keyboard shortcut: cmd/ctrl + P triggers our download flow
@@ -109,6 +161,10 @@ export function ResumeEditor() {
             className="h-8 w-32 border-transparent bg-transparent px-2 text-sm font-medium hover:bg-surface-2 focus-visible:bg-background focus-visible:ring-1 sm:w-48"
             placeholder="Untitled Resume"
           />
+          <span className="hidden items-center gap-1 text-xs text-muted-foreground xl:inline-flex" title="Your draft is saved in this browser">
+            <HardDrive className="size-3.5" />
+            Saved locally
+          </span>
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2">
@@ -121,6 +177,8 @@ export function ResumeEditor() {
             <LayoutTemplate className="size-4" />
             Templates
           </Button>
+          <input ref={backupFileRef} type="file" accept=".json,application/json" className="sr-only" onChange={handleImportBackup} />
+          <input ref={linkedinFileRef} type="file" accept=".pdf,application/pdf" className="sr-only" onChange={handleLinkedInImport} />
           <Button
             variant="outline"
             size="sm"
@@ -133,13 +191,41 @@ export function ResumeEditor() {
           <Button
             variant="outline"
             size="sm"
-            className="h-9"
-            onClick={handleSave}
-            disabled={saving}
+            className="hidden h-9 md:inline-flex"
+            onClick={() => linkedinFileRef.current?.click()}
+            disabled={importingLinkedIn}
+            title="Upload a LinkedIn profile PDF"
           >
-            {saving ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}
-            <span className="hidden sm:inline">Save</span>
+            <Linkedin className="size-4" />
+            <span className="hidden lg:inline">Import LinkedIn</span>
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" className="size-9" aria-label="Resume data options" title="Resume data options">
+                <MoreHorizontal className="size-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onSelect={(event) => { event.preventDefault(); linkedinFileRef.current?.click(); }}>
+                <Linkedin className="size-4" />
+                Import LinkedIn PDF
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={handleExportBackup}>
+                <FileDown className="size-4" />
+                Download backup
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={(event) => { event.preventDefault(); backupFileRef.current?.click(); }}>
+                <FileUp className="size-4" />
+                Restore backup
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem variant="destructive" onSelect={handleClearLocalResume}>
+                <Trash2 className="size-4" />
+                Clear local resume
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button
             variant="ghost"
             size="sm"

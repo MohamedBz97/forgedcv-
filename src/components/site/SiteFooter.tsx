@@ -1,8 +1,5 @@
 import { BrandLockup } from "@/components/brand/BrandLockup";
-import { TEMPLATES } from "@/lib/templates";
 import { DONATE } from "@/lib/site-config";
-
-const templateCount = TEMPLATES.length;
 
 const FOOTER_COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -28,6 +25,10 @@ const FOOTER_COLUMNS: { title: string; links: { label: string; href: string }[] 
       { label: "Blog", href: "/blog" },
       { label: "Examples", href: "/resume-examples" },
       { label: "FAQ", href: "/#faq" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
     ],
   },
   {
@@ -49,8 +50,8 @@ export function SiteFooter() {
             </a>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-charcoal-400">
               The free resume builder for people who&apos;d rather be working than
-              formatting. {templateCount} premium templates, live preview, unlimited PDF
-              downloads — no watermarks, no paywalls, no signup.
+              formatting. Edit with a live preview and download a clean PDF. Your
+              resume stays in this browser unless you export or print it.
             </p>
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-charcoal-500">
               Forged for job seekers
@@ -81,7 +82,7 @@ export function SiteFooter() {
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-charcoal-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} forgedCV. Forge a resume that gets you hired.</p>
           <p className="font-medium text-charcoal-500">
-            {templateCount} templates · 100% free forever · 0 watermarks
+            Free to use · No watermarks
           </p>
         </div>
       </div>
